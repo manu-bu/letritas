@@ -778,6 +778,432 @@ function renderMesa() {
   }
 }
 
+// ── CONJUGACIONES DE VERBOS (ESPAÑOL) ──────────────────────────────────
+// Estructura: cada verbo tiene los 8 tiempos con sus conjugaciones
+// IMPORTANTE: cuando se agregue otro idioma, crear este objeto en ese idioma
+const CONJUGACIONES_VERBOS = {
+  'comer': {
+    infinitivo: 'comer',
+    participio: 'comido',
+    tiempos: [
+      { titulo: 'PLUSCUAMPERFECTO', color1: '#d63b2f', color2: '#c02a20', ejemplo: 'yo había comido', conjugaciones: [
+        {persona: 'yo', forma: 'había comido'},
+        {persona: 'tú', forma: 'habías comido'},
+        {persona: 'él/ella', forma: 'había comido'},
+        {persona: 'nosotros', forma: 'habíamos comido'},
+        {persona: 'vosotros', forma: 'habíais comido'},
+        {persona: 'ellos/ellas', forma: 'habían comido'}
+      ]},
+      { titulo: 'PASADO COMPUESTO', color1: '#e8821e', color2: '#c86a10', ejemplo: 'yo he comido', conjugaciones: [
+        {persona: 'yo', forma: 'he comido'},
+        {persona: 'tú', forma: 'has comido'},
+        {persona: 'él/ella', forma: 'ha comido'},
+        {persona: 'nosotros', forma: 'hemos comido'},
+        {persona: 'vosotros', forma: 'habéis comido'},
+        {persona: 'ellos/ellas', forma: 'han comido'}
+      ]},
+      { titulo: 'IMPERFECTO', color1: '#e8c91e', color2: '#c8a810', ejemplo: 'yo comía', conjugaciones: [
+        {persona: 'yo', forma: 'comía'},
+        {persona: 'tú', forma: 'comías'},
+        {persona: 'él/ella', forma: 'comía'},
+        {persona: 'nosotros', forma: 'comíamos'},
+        {persona: 'vosotros', forma: 'comíais'},
+        {persona: 'ellos/ellas', forma: 'comían'}
+      ]},
+      { titulo: 'PASADO CONDICIONAL', color1: '#e85ca8', color2: '#c84090', ejemplo: 'yo habría comido', conjugaciones: [
+        {persona: 'yo', forma: 'habría comido'},
+        {persona: 'tú', forma: 'habrías comido'},
+        {persona: 'él/ella', forma: 'habría comido'},
+        {persona: 'nosotros', forma: 'habríamos comido'},
+        {persona: 'vosotros', forma: 'habríais comido'},
+        {persona: 'ellos/ellas', forma: 'habrían comido'}
+      ]},
+      { titulo: 'PRESENTE', color1: '#3a3a3a', color2: '#1a1a1a', ejemplo: 'yo como', conjugaciones: [
+        {persona: 'yo', forma: 'como'},
+        {persona: 'tú', forma: 'comes'},
+        {persona: 'él/ella', forma: 'come'},
+        {persona: 'nosotros', forma: 'comemos'},
+        {persona: 'vosotros', forma: 'coméis'},
+        {persona: 'ellos/ellas', forma: 'comen'}
+      ]},
+      { titulo: 'FUTURO PRÓXIMO', color1: '#4caf3a', color2: '#2a8f20', ejemplo: 'yo voy a comer', conjugaciones: [
+        {persona: 'yo', forma: 'voy a comer'},
+        {persona: 'tú', forma: 'vas a comer'},
+        {persona: 'él/ella', forma: 'va a comer'},
+        {persona: 'nosotros', forma: 'vamos a comer'},
+        {persona: 'vosotros', forma: 'vais a comer'},
+        {persona: 'ellos/ellas', forma: 'van a comer'}
+      ]},
+      { titulo: 'FUTURO SIMPLE', color1: '#2f7fe0', color2: '#1060c0', ejemplo: 'yo comeré', conjugaciones: [
+        {persona: 'yo', forma: 'comeré'},
+        {persona: 'tú', forma: 'comerás'},
+        {persona: 'él/ella', forma: 'comerá'},
+        {persona: 'nosotros', forma: 'comeremos'},
+        {persona: 'vosotros', forma: 'comeréis'},
+        {persona: 'ellos/ellas', forma: 'comerán'}
+      ]},
+      { titulo: 'CONDICIONAL', color1: '#7b3fd6', color2: '#5a20b0', ejemplo: 'yo comería', conjugaciones: [
+        {persona: 'yo', forma: 'comería'},
+        {persona: 'tú', forma: 'comerías'},
+        {persona: 'él/ella', forma: 'comería'},
+        {persona: 'nosotros', forma: 'comeríamos'},
+        {persona: 'vosotros', forma: 'comeríais'},
+        {persona: 'ellos/ellas', forma: 'comerían'}
+      ]}
+    ]
+  },
+  'hablar': {
+    infinitivo: 'hablar',
+    participio: 'hablado',
+    tiempos: [
+      { titulo: 'PLUSCUAMPERFECTO', color1: '#d63b2f', color2: '#c02a20', ejemplo: 'yo había hablado', conjugaciones: [
+        {persona: 'yo', forma: 'había hablado'},
+        {persona: 'tú', forma: 'habías hablado'},
+        {persona: 'él/ella', forma: 'había hablado'},
+        {persona: 'nosotros', forma: 'habíamos hablado'},
+        {persona: 'vosotros', forma: 'habíais hablado'},
+        {persona: 'ellos/ellas', forma: 'habían hablado'}
+      ]},
+      { titulo: 'PASADO COMPUESTO', color1: '#e8821e', color2: '#c86a10', ejemplo: 'yo he hablado', conjugaciones: [
+        {persona: 'yo', forma: 'he hablado'},
+        {persona: 'tú', forma: 'has hablado'},
+        {persona: 'él/ella', forma: 'ha hablado'},
+        {persona: 'nosotros', forma: 'hemos hablado'},
+        {persona: 'vosotros', forma: 'habéis hablado'},
+        {persona: 'ellos/ellas', forma: 'han hablado'}
+      ]},
+      { titulo: 'IMPERFECTO', color1: '#e8c91e', color2: '#c8a810', ejemplo: 'yo hablaba', conjugaciones: [
+        {persona: 'yo', forma: 'hablaba'},
+        {persona: 'tú', forma: 'hablabas'},
+        {persona: 'él/ella', forma: 'hablaba'},
+        {persona: 'nosotros', forma: 'hablábamos'},
+        {persona: 'vosotros', forma: 'hablabais'},
+        {persona: 'ellos/ellas', forma: 'hablaban'}
+      ]},
+      { titulo: 'PASADO CONDICIONAL', color1: '#e85ca8', color2: '#c84090', ejemplo: 'yo habría hablado', conjugaciones: [
+        {persona: 'yo', forma: 'habría hablado'},
+        {persona: 'tú', forma: 'habrías hablado'},
+        {persona: 'él/ella', forma: 'habría hablado'},
+        {persona: 'nosotros', forma: 'habríamos hablado'},
+        {persona: 'vosotros', forma: 'habríais hablado'},
+        {persona: 'ellos/ellas', forma: 'habrían hablado'}
+      ]},
+      { titulo: 'PRESENTE', color1: '#3a3a3a', color2: '#1a1a1a', ejemplo: 'yo hablo', conjugaciones: [
+        {persona: 'yo', forma: 'hablo'},
+        {persona: 'tú', forma: 'hablas'},
+        {persona: 'él/ella', forma: 'habla'},
+        {persona: 'nosotros', forma: 'hablamos'},
+        {persona: 'vosotros', forma: 'habláis'},
+        {persona: 'ellos/ellas', forma: 'hablan'}
+      ]},
+      { titulo: 'FUTURO PRÓXIMO', color1: '#4caf3a', color2: '#2a8f20', ejemplo: 'yo voy a hablar', conjugaciones: [
+        {persona: 'yo', forma: 'voy a hablar'},
+        {persona: 'tú', forma: 'vas a hablar'},
+        {persona: 'él/ella', forma: 'va a hablar'},
+        {persona: 'nosotros', forma: 'vamos a hablar'},
+        {persona: 'vosotros', forma: 'vais a hablar'},
+        {persona: 'ellos/ellas', forma: 'van a hablar'}
+      ]},
+      { titulo: 'FUTURO SIMPLE', color1: '#2f7fe0', color2: '#1060c0', ejemplo: 'yo hablaré', conjugaciones: [
+        {persona: 'yo', forma: 'hablaré'},
+        {persona: 'tú', forma: 'hablarás'},
+        {persona: 'él/ella', forma: 'hablará'},
+        {persona: 'nosotros', forma: 'hablaremos'},
+        {persona: 'vosotros', forma: 'hablaréis'},
+        {persona: 'ellos/ellas', forma: 'hablarán'}
+      ]},
+      { titulo: 'CONDICIONAL', color1: '#7b3fd6', color2: '#5a20b0', ejemplo: 'yo hablaría', conjugaciones: [
+        {persona: 'yo', forma: 'hablaría'},
+        {persona: 'tú', forma: 'hablarías'},
+        {persona: 'él/ella', forma: 'hablaría'},
+        {persona: 'nosotros', forma: 'hablaríamos'},
+        {persona: 'vosotros', forma: 'hablaríais'},
+        {persona: 'ellos/ellas', forma: 'hablarían'}
+      ]}
+    ]
+  },
+  'vivir': {
+    infinitivo: 'vivir',
+    participio: 'vivido',
+    tiempos: [
+      { titulo: 'PLUSCUAMPERFECTO', color1: '#d63b2f', color2: '#c02a20', ejemplo: 'yo había vivido', conjugaciones: [
+        {persona: 'yo', forma: 'había vivido'},
+        {persona: 'tú', forma: 'habías vivido'},
+        {persona: 'él/ella', forma: 'había vivido'},
+        {persona: 'nosotros', forma: 'habíamos vivido'},
+        {persona: 'vosotros', forma: 'habíais vivido'},
+        {persona: 'ellos/ellas', forma: 'habían vivido'}
+      ]},
+      { titulo: 'PASADO COMPUESTO', color1: '#e8821e', color2: '#c86a10', ejemplo: 'yo he vivido', conjugaciones: [
+        {persona: 'yo', forma: 'he vivido'},
+        {persona: 'tú', forma: 'has vivido'},
+        {persona: 'él/ella', forma: 'ha vivido'},
+        {persona: 'nosotros', forma: 'hemos vivido'},
+        {persona: 'vosotros', forma: 'habéis vivido'},
+        {persona: 'ellos/ellas', forma: 'han vivido'}
+      ]},
+      { titulo: 'IMPERFECTO', color1: '#e8c91e', color2: '#c8a810', ejemplo: 'yo vivía', conjugaciones: [
+        {persona: 'yo', forma: 'vivía'},
+        {persona: 'tú', forma: 'vivías'},
+        {persona: 'él/ella', forma: 'vivía'},
+        {persona: 'nosotros', forma: 'vivíamos'},
+        {persona: 'vosotros', forma: 'vivíais'},
+        {persona: 'ellos/ellas', forma: 'vivían'}
+      ]},
+      { titulo: 'PASADO CONDICIONAL', color1: '#e85ca8', color2: '#c84090', ejemplo: 'yo habría vivido', conjugaciones: [
+        {persona: 'yo', forma: 'habría vivido'},
+        {persona: 'tú', forma: 'habrías vivido'},
+        {persona: 'él/ella', forma: 'habría vivido'},
+        {persona: 'nosotros', forma: 'habríamos vivido'},
+        {persona: 'vosotros', forma: 'habríais vivido'},
+        {persona: 'ellos/ellas', forma: 'habrían vivido'}
+      ]},
+      { titulo: 'PRESENTE', color1: '#3a3a3a', color2: '#1a1a1a', ejemplo: 'yo vivo', conjugaciones: [
+        {persona: 'yo', forma: 'vivo'},
+        {persona: 'tú', forma: 'vives'},
+        {persona: 'él/ella', forma: 'vive'},
+        {persona: 'nosotros', forma: 'vivimos'},
+        {persona: 'vosotros', forma: 'vivís'},
+        {persona: 'ellos/ellas', forma: 'viven'}
+      ]},
+      { titulo: 'FUTURO PRÓXIMO', color1: '#4caf3a', color2: '#2a8f20', ejemplo: 'yo voy a vivir', conjugaciones: [
+        {persona: 'yo', forma: 'voy a vivir'},
+        {persona: 'tú', forma: 'vas a vivir'},
+        {persona: 'él/ella', forma: 'va a vivir'},
+        {persona: 'nosotros', forma: 'vamos a vivir'},
+        {persona: 'vosotros', forma: 'vais a vivir'},
+        {persona: 'ellos/ellas', forma: 'van a vivir'}
+      ]},
+      { titulo: 'FUTURO SIMPLE', color1: '#2f7fe0', color2: '#1060c0', ejemplo: 'yo viviré', conjugaciones: [
+        {persona: 'yo', forma: 'viviré'},
+        {persona: 'tú', forma: 'vivirás'},
+        {persona: 'él/ella', forma: 'vivirá'},
+        {persona: 'nosotros', forma: 'viviremos'},
+        {persona: 'vosotros', forma: 'viviréis'},
+        {persona: 'ellos/ellas', forma: 'vivirán'}
+      ]},
+      { titulo: 'CONDICIONAL', color1: '#7b3fd6', color2: '#5a20b0', ejemplo: 'yo viviría', conjugaciones: [
+        {persona: 'yo', forma: 'viviría'},
+        {persona: 'tú', forma: 'vivirías'},
+        {persona: 'él/ella', forma: 'viviría'},
+        {persona: 'nosotros', forma: 'viviríamos'},
+        {persona: 'vosotros', forma: 'viviríais'},
+        {persona: 'ellos/ellas', forma: 'vivirían'}
+      ]}
+    ]
+  },
+  'ser': {
+    infinitivo: 'ser',
+    participio: 'sido',
+    tiempos: [
+      { titulo: 'PLUSCUAMPERFECTO', color1: '#d63b2f', color2: '#c02a20', ejemplo: 'yo había sido', conjugaciones: [
+        {persona: 'yo', forma: 'había sido'},
+        {persona: 'tú', forma: 'habías sido'},
+        {persona: 'él/ella', forma: 'había sido'},
+        {persona: 'nosotros', forma: 'habíamos sido'},
+        {persona: 'vosotros', forma: 'habíais sido'},
+        {persona: 'ellos/ellas', forma: 'habían sido'}
+      ]},
+      { titulo: 'PASADO COMPUESTO', color1: '#e8821e', color2: '#c86a10', ejemplo: 'yo he sido', conjugaciones: [
+        {persona: 'yo', forma: 'he sido'},
+        {persona: 'tú', forma: 'has sido'},
+        {persona: 'él/ella', forma: 'ha sido'},
+        {persona: 'nosotros', forma: 'hemos sido'},
+        {persona: 'vosotros', forma: 'habéis sido'},
+        {persona: 'ellos/ellas', forma: 'han sido'}
+      ]},
+      { titulo: 'IMPERFECTO', color1: '#e8c91e', color2: '#c8a810', ejemplo: 'yo era', conjugaciones: [
+        {persona: 'yo', forma: 'era'},
+        {persona: 'tú', forma: 'eras'},
+        {persona: 'él/ella', forma: 'era'},
+        {persona: 'nosotros', forma: 'éramos'},
+        {persona: 'vosotros', forma: 'erais'},
+        {persona: 'ellos/ellas', forma: 'eran'}
+      ]},
+      { titulo: 'PASADO CONDICIONAL', color1: '#e85ca8', color2: '#c84090', ejemplo: 'yo habría sido', conjugaciones: [
+        {persona: 'yo', forma: 'habría sido'},
+        {persona: 'tú', forma: 'habrías sido'},
+        {persona: 'él/ella', forma: 'habría sido'},
+        {persona: 'nosotros', forma: 'habríamos sido'},
+        {persona: 'vosotros', forma: 'habríais sido'},
+        {persona: 'ellos/ellas', forma: 'habrían sido'}
+      ]},
+      { titulo: 'PRESENTE', color1: '#3a3a3a', color2: '#1a1a1a', ejemplo: 'yo soy', conjugaciones: [
+        {persona: 'yo', forma: 'soy'},
+        {persona: 'tú', forma: 'eres'},
+        {persona: 'él/ella', forma: 'es'},
+        {persona: 'nosotros', forma: 'somos'},
+        {persona: 'vosotros', forma: 'sois'},
+        {persona: 'ellos/ellas', forma: 'son'}
+      ]},
+      { titulo: 'FUTURO PRÓXIMO', color1: '#4caf3a', color2: '#2a8f20', ejemplo: 'yo voy a ser', conjugaciones: [
+        {persona: 'yo', forma: 'voy a ser'},
+        {persona: 'tú', forma: 'vas a ser'},
+        {persona: 'él/ella', forma: 'va a ser'},
+        {persona: 'nosotros', forma: 'vamos a ser'},
+        {persona: 'vosotros', forma: 'vais a ser'},
+        {persona: 'ellos/ellas', forma: 'van a ser'}
+      ]},
+      { titulo: 'FUTURO SIMPLE', color1: '#2f7fe0', color2: '#1060c0', ejemplo: 'yo seré', conjugaciones: [
+        {persona: 'yo', forma: 'seré'},
+        {persona: 'tú', forma: 'serás'},
+        {persona: 'él/ella', forma: 'será'},
+        {persona: 'nosotros', forma: 'seremos'},
+        {persona: 'vosotros', forma: 'seréis'},
+        {persona: 'ellos/ellas', forma: 'serán'}
+      ]},
+      { titulo: 'CONDICIONAL', color1: '#7b3fd6', color2: '#5a20b0', ejemplo: 'yo sería', conjugaciones: [
+        {persona: 'yo', forma: 'sería'},
+        {persona: 'tú', forma: 'serías'},
+        {persona: 'él/ella', forma: 'sería'},
+        {persona: 'nosotros', forma: 'seríamos'},
+        {persona: 'vosotros', forma: 'seríais'},
+        {persona: 'ellos/ellas', forma: 'serían'}
+      ]}
+    ]
+  },
+  'ir': {
+    infinitivo: 'ir',
+    participio: 'ido',
+    tiempos: [
+      { titulo: 'PLUSCUAMPERFECTO', color1: '#d63b2f', color2: '#c02a20', ejemplo: 'yo había ido', conjugaciones: [
+        {persona: 'yo', forma: 'había ido'},
+        {persona: 'tú', forma: 'habías ido'},
+        {persona: 'él/ella', forma: 'había ido'},
+        {persona: 'nosotros', forma: 'habíamos ido'},
+        {persona: 'vosotros', forma: 'habíais ido'},
+        {persona: 'ellos/ellas', forma: 'habían ido'}
+      ]},
+      { titulo: 'PASADO COMPUESTO', color1: '#e8821e', color2: '#c86a10', ejemplo: 'yo he ido', conjugaciones: [
+        {persona: 'yo', forma: 'he ido'},
+        {persona: 'tú', forma: 'has ido'},
+        {persona: 'él/ella', forma: 'ha ido'},
+        {persona: 'nosotros', forma: 'hemos ido'},
+        {persona: 'vosotros', forma: 'habéis ido'},
+        {persona: 'ellos/ellas', forma: 'han ido'}
+      ]},
+      { titulo: 'IMPERFECTO', color1: '#e8c91e', color2: '#c8a810', ejemplo: 'yo iba', conjugaciones: [
+        {persona: 'yo', forma: 'iba'},
+        {persona: 'tú', forma: 'ibas'},
+        {persona: 'él/ella', forma: 'iba'},
+        {persona: 'nosotros', forma: 'íbamos'},
+        {persona: 'vosotros', forma: 'ibais'},
+        {persona: 'ellos/ellas', forma: 'iban'}
+      ]},
+      { titulo: 'PASADO CONDICIONAL', color1: '#e85ca8', color2: '#c84090', ejemplo: 'yo habría ido', conjugaciones: [
+        {persona: 'yo', forma: 'habría ido'},
+        {persona: 'tú', forma: 'habrías ido'},
+        {persona: 'él/ella', forma: 'habría ido'},
+        {persona: 'nosotros', forma: 'habríamos ido'},
+        {persona: 'vosotros', forma: 'habríais ido'},
+        {persona: 'ellos/ellas', forma: 'habrían ido'}
+      ]},
+      { titulo: 'PRESENTE', color1: '#3a3a3a', color2: '#1a1a1a', ejemplo: 'yo voy', conjugaciones: [
+        {persona: 'yo', forma: 'voy'},
+        {persona: 'tú', forma: 'vas'},
+        {persona: 'él/ella', forma: 'va'},
+        {persona: 'nosotros', forma: 'vamos'},
+        {persona: 'vosotros', forma: 'vais'},
+        {persona: 'ellos/ellas', forma: 'van'}
+      ]},
+      { titulo: 'FUTURO PRÓXIMO', color1: '#4caf3a', color2: '#2a8f20', ejemplo: 'yo voy a ir', conjugaciones: [
+        {persona: 'yo', forma: 'voy a ir'},
+        {persona: 'tú', forma: 'vas a ir'},
+        {persona: 'él/ella', forma: 'va a ir'},
+        {persona: 'nosotros', forma: 'vamos a ir'},
+        {persona: 'vosotros', forma: 'vais a ir'},
+        {persona: 'ellos/ellas', forma: 'van a ir'}
+      ]},
+      { titulo: 'FUTURO SIMPLE', color1: '#2f7fe0', color2: '#1060c0', ejemplo: 'yo iré', conjugaciones: [
+        {persona: 'yo', forma: 'iré'},
+        {persona: 'tú', forma: 'irás'},
+        {persona: 'él/ella', forma: 'irá'},
+        {persona: 'nosotros', forma: 'iremos'},
+        {persona: 'vosotros', forma: 'iréis'},
+        {persona: 'ellos/ellas', forma: 'irán'}
+      ]},
+      { titulo: 'CONDICIONAL', color1: '#7b3fd6', color2: '#5a20b0', ejemplo: 'yo iría', conjugaciones: [
+        {persona: 'yo', forma: 'iría'},
+        {persona: 'tú', forma: 'irías'},
+        {persona: 'él/ella', forma: 'iría'},
+        {persona: 'nosotros', forma: 'iríamos'},
+        {persona: 'vosotros', forma: 'iríais'},
+        {persona: 'ellos/ellas', forma: 'irían'}
+      ]}
+    ]
+  },
+  'hacer': {
+    infinitivo: 'hacer',
+    participio: 'hecho',
+    tiempos: [
+      { titulo: 'PLUSCUAMPERFECTO', color1: '#d63b2f', color2: '#c02a20', ejemplo: 'yo había hecho', conjugaciones: [
+        {persona: 'yo', forma: 'había hecho'},
+        {persona: 'tú', forma: 'habías hecho'},
+        {persona: 'él/ella', forma: 'había hecho'},
+        {persona: 'nosotros', forma: 'habíamos hecho'},
+        {persona: 'vosotros', forma: 'habíais hecho'},
+        {persona: 'ellos/ellas', forma: 'habían hecho'}
+      ]},
+      { titulo: 'PASADO COMPUESTO', color1: '#e8821e', color2: '#c86a10', ejemplo: 'yo he hecho', conjugaciones: [
+        {persona: 'yo', forma: 'he hecho'},
+        {persona: 'tú', forma: 'has hecho'},
+        {persona: 'él/ella', forma: 'ha hecho'},
+        {persona: 'nosotros', forma: 'hemos hecho'},
+        {persona: 'vosotros', forma: 'habéis hecho'},
+        {persona: 'ellos/ellas', forma: 'han hecho'}
+      ]},
+      { titulo: 'IMPERFECTO', color1: '#e8c91e', color2: '#c8a810', ejemplo: 'yo hacía', conjugaciones: [
+        {persona: 'yo', forma: 'hacía'},
+        {persona: 'tú', forma: 'hacías'},
+        {persona: 'él/ella', forma: 'hacía'},
+        {persona: 'nosotros', forma: 'hacíamos'},
+        {persona: 'vosotros', forma: 'hacíais'},
+        {persona: 'ellos/ellas', forma: 'hacían'}
+      ]},
+      { titulo: 'PASADO CONDICIONAL', color1: '#e85ca8', color2: '#c84090', ejemplo: 'yo habría hecho', conjugaciones: [
+        {persona: 'yo', forma: 'habría hecho'},
+        {persona: 'tú', forma: 'habrías hecho'},
+        {persona: 'él/ella', forma: 'habría hecho'},
+        {persona: 'nosotros', forma: 'habríamos hecho'},
+        {persona: 'vosotros', forma: 'habríais hecho'},
+        {persona: 'ellos/ellas', forma: 'habrían hecho'}
+      ]},
+      { titulo: 'PRESENTE', color1: '#3a3a3a', color2: '#1a1a1a', ejemplo: 'yo hago', conjugaciones: [
+        {persona: 'yo', forma: 'hago'},
+        {persona: 'tú', forma: 'haces'},
+        {persona: 'él/ella', forma: 'hace'},
+        {persona: 'nosotros', forma: 'hacemos'},
+        {persona: 'vosotros', forma: 'hacéis'},
+        {persona: 'ellos/ellas', forma: 'hacen'}
+      ]},
+      { titulo: 'FUTURO PRÓXIMO', color1: '#4caf3a', color2: '#2a8f20', ejemplo: 'yo voy a hacer', conjugaciones: [
+        {persona: 'yo', forma: 'voy a hacer'},
+        {persona: 'tú', forma: 'vas a hacer'},
+        {persona: 'él/ella', forma: 'va a hacer'},
+        {persona: 'nosotros', forma: 'vamos a hacer'},
+        {persona: 'vosotros', forma: 'vais a hacer'},
+        {persona: 'ellos/ellas', forma: 'van a hacer'}
+      ]},
+      { titulo: 'FUTURO SIMPLE', color1: '#2f7fe0', color2: '#1060c0', ejemplo: 'yo haré', conjugaciones: [
+        {persona: 'yo', forma: 'haré'},
+        {persona: 'tú', forma: 'harás'},
+        {persona: 'él/ella', forma: 'hará'},
+        {persona: 'nosotros', forma: 'haremos'},
+        {persona: 'vosotros', forma: 'haréis'},
+        {persona: 'ellos/ellas', forma: 'harán'}
+      ]},
+      { titulo: 'CONDICIONAL', color1: '#7b3fd6', color2: '#5a20b0', ejemplo: 'yo haría', conjugaciones: [
+        {persona: 'yo', forma: 'haría'},
+        {persona: 'tú', forma: 'harías'},
+        {persona: 'él/ella', forma: 'haría'},
+        {persona: 'nosotros', forma: 'haríamos'},
+        {persona: 'vosotros', forma: 'haríais'},
+        {persona: 'ellos/ellas', forma: 'harían'}
+      ]}
+    ]
+  }
+};
+
 // Mesa fija: 4×2 con plantilla de 8 items — sin contenido
 // 
 // IMPORTANTE - PERSONAS/PRONOMBRES POR IDIOMA:
@@ -800,72 +1226,17 @@ function renderMesaFija(mesa) {
   const grid = document.createElement('div');
   grid.className = 'mesa-fija';
 
-  const items_fija = [
-    { titulo: 'PLUSCUAMPERFECTO', color1: '#d63b2f', color2: '#c02a20', ejemplo: 'yo había comido', conjugaciones: [
-      {persona: 'yo', forma: 'había comido'},
-      {persona: 'tú', forma: 'habías comido'},
-      {persona: 'él/ella', forma: 'había comido'},
-      {persona: 'nosotros', forma: 'habíamos comido'},
-      {persona: 'vosotros', forma: 'habíais comido'},
-      {persona: 'ellos/ellas', forma: 'habían comido'}
-    ]},
-    { titulo: 'PASADO COMPUESTO', color1: '#e8821e', color2: '#c86a10', ejemplo: 'yo he comido', conjugaciones: [
-      {persona: 'yo', forma: 'he comido'},
-      {persona: 'tú', forma: 'has comido'},
-      {persona: 'él/ella', forma: 'ha comido'},
-      {persona: 'nosotros', forma: 'hemos comido'},
-      {persona: 'vosotros', forma: 'habéis comido'},
-      {persona: 'ellos/ellas', forma: 'han comido'}
-    ]},
-    { titulo: 'IMPERFECTO', color1: '#e8c91e', color2: '#c8a810', ejemplo: 'yo comía', conjugaciones: [
-      {persona: 'yo', forma: 'comía'},
-      {persona: 'tú', forma: 'comías'},
-      {persona: 'él/ella', forma: 'comía'},
-      {persona: 'nosotros', forma: 'comíamos'},
-      {persona: 'vosotros', forma: 'comíais'},
-      {persona: 'ellos/ellas', forma: 'comían'}
-    ]},
-    { titulo: 'PASADO CONDICIONAL', color1: '#e85ca8', color2: '#c84090', ejemplo: 'yo habría comido', conjugaciones: [
-      {persona: 'yo', forma: 'habría comido'},
-      {persona: 'tú', forma: 'habrías comido'},
-      {persona: 'él/ella', forma: 'habría comido'},
-      {persona: 'nosotros', forma: 'habríamos comido'},
-      {persona: 'vosotros', forma: 'habríais comido'},
-      {persona: 'ellos/ellas', forma: 'habrían comido'}
-    ]},
-    { titulo: 'PRESENTE', color1: '#3a3a3a', color2: '#1a1a1a', ejemplo: 'yo como', conjugaciones: [
-      {persona: 'yo', forma: 'como'},
-      {persona: 'tú', forma: 'comes'},
-      {persona: 'él/ella', forma: 'come'},
-      {persona: 'nosotros', forma: 'comemos'},
-      {persona: 'vosotros', forma: 'coméis'},
-      {persona: 'ellos/ellas', forma: 'comen'}
-    ]},
-    { titulo: 'FUTURO PRÓXIMO', color1: '#4caf3a', color2: '#2a8f20', ejemplo: 'yo voy a comer', conjugaciones: [
-      {persona: 'yo', forma: 'voy a comer'},
-      {persona: 'tú', forma: 'vas a comer'},
-      {persona: 'él/ella', forma: 'va a comer'},
-      {persona: 'nosotros', forma: 'vamos a comer'},
-      {persona: 'vosotros', forma: 'vais a comer'},
-      {persona: 'ellos/ellas', forma: 'van a comer'}
-    ]},
-    { titulo: 'FUTURO SIMPLE', color1: '#2f7fe0', color2: '#1060c0', ejemplo: 'yo comeré', conjugaciones: [
-      {persona: 'yo', forma: 'comeré'},
-      {persona: 'tú', forma: 'comerás'},
-      {persona: 'él/ella', forma: 'comerá'},
-      {persona: 'nosotros', forma: 'comeremos'},
-      {persona: 'vosotros', forma: 'comeréis'},
-      {persona: 'ellos/ellas', forma: 'comerán'}
-    ]},
-    { titulo: 'CONDICIONAL', color1: '#7b3fd6', color2: '#5a20b0', ejemplo: 'yo comería', conjugaciones: [
-      {persona: 'yo', forma: 'comería'},
-      {persona: 'tú', forma: 'comerías'},
-      {persona: 'él/ella', forma: 'comería'},
-      {persona: 'nosotros', forma: 'comeríamos'},
-      {persona: 'vosotros', forma: 'comeríais'},
-      {persona: 'ellos/ellas', forma: 'comerían'}
-    ]}
-  ];
+  // Obtener el verbo seleccionado
+  const verboSeleccionado = estado.subtema || 'comer'; // Por defecto COMER
+  const conjugacionesVerbo = CONJUGACIONES_VERBOS[verboSeleccionado];
+  
+  if (!conjugacionesVerbo) {
+    mesa.innerHTML = '<div class="mesa-vacia">Verbo no encontrado</div>';
+    return;
+  }
+
+  // Usar los 8 tiempos del verbo seleccionado
+  const items_fija = conjugacionesVerbo.tiempos;
 
   items_fija.forEach(t => {
     const card = document.createElement('div');
