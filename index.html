@@ -125,7 +125,26 @@ header {
 }
 
 
-/* Selector sin contenido siguiente — se achica a círculo */
+/* Selector VERBOS — degradé radial de 7 colores alrededor del borde */
+.selector.verbos {
+  background:
+    linear-gradient(#ffffff, #ffffff) padding-box,
+    conic-gradient(
+      #e8c91e,      /* Amarillo - Imperfecto */
+      #e8821e,      /* Naranja - Pasado Compuesto */
+      #d63b2f,      /* Rojo - Pluscuamperfecto */
+      #e85ca8,      /* Rosa - Pasado Condicional */
+      #7b3fd6,      /* Violeta - Condicional */
+      #2f7fe0,      /* Azul - Futuro Simple */
+      #4caf3a,      /* Verde - Futuro Próximo */
+      #e8c91e       /* Amarillo nuevamente para cerrar el círculo */
+    ) border-box;
+}
+
+.selector.verbos {
+  color: #3a3a38;
+}
+
 .selector.circulo {
   min-width: 0 !important;
   width: var(--sel-h);
@@ -376,6 +395,32 @@ const estado = {
 };
 
 // ── UNIDADES (plantilla: W=libre, V=fija, T=libre) ───────────────────
+// ── FORMATO DE VERBOS (REFERENCIA PARA TODOS LOS IDIOMAS) ──────────────
+// Estructura: NOMBRE_EN_ESPAÑOL: infinitivo_idioma - participio_idioma
+// 
+// Ejemplos:
+//   Español:  COMER: comer - comido
+//   Francés:  COMER: manger - mangé
+//   Ruso:     COMER: есть - ел
+//   Italiano: COMER: mangiare - mangiato
+//
+// El nombre antes de ":" SIEMPRE en español, después va el idioma de la app
+// ────────────────────────────────────────────────────────────────────────
+
+// ── CRITERIOS DE TEMAS (varían por idioma) ──────────────────────────────
+// Los temas agrupan verbos según criterios propios de cada idioma.
+// NO todos los idiomas usan la misma clasificación.
+// 
+// Ejemplos:
+//   Español:  REGULARES / IRREGULARES (por cambios en raíz/terminación)
+//   Francés:  1er/2e/3er grupo (por grupo de conjugación)
+//   Ruso:     Aspecto perfectivo/imperfectivo (por tipo de acción)
+//   Italiano: -are / -ere / -ire (por tipo de infinitivo)
+//
+// Los SUBTEMAS (verbos individuales) SIEMPRE se ordenan alfabéticamente
+// por nombre (antes de los :) automáticamente en elegirTema()
+// ────────────────────────────────────────────────────────────────────────
+
 const UNIDADES = {
   'W': {
     nombre: 'W',
@@ -396,13 +441,26 @@ const UNIDADES = {
       'T2': { nombre: 'T2', subtemas: null }
     }
   },
-  'V': {
-    nombre: 'V',
+  'VERBOS': {
+    nombre: 'VERBOS',
     tipo: 'fija',
     temas: {
-      'V1': { nombre: 'V1', subtemas: null },
-      'V2': { nombre: 'V2', subtemas: null },
-      'V3': { nombre: 'V3', subtemas: null }
+      'REGULAR': { 
+        nombre: 'REGULARES', 
+        subtemas: {
+          'hablar': { nombre: 'HABLAR: hablar - hablado' },
+          'comer': { nombre: 'COMER: comer - comido' },
+          'vivir': { nombre: 'VIVIR: vivir - vivido' }
+        }
+      },
+      'IRREGULAR': { 
+        nombre: 'IRREGULARES', 
+        subtemas: {
+          'ser': { nombre: 'SER: ser - sido' },
+          'ir': { nombre: 'IR: ir - ido' },
+          'hacer': { nombre: 'HACER: hacer - hecho' }
+        }
+      }
     }
   }
 };
@@ -521,6 +579,17 @@ function actualizarSelectores() {
     s2.textContent = ''; s2.className = 'selector sel-tema circulo';
     s3.textContent = ''; s3.className = 'selector sel-subtema circulo';
   }
+
+  // Aplicar clase verbos si es VERBOS
+  if (estado.unidad === 'VERBOS') {
+    s1.classList.add('verbos');
+    s2.classList.add('verbos');
+    s3.classList.add('verbos');
+  } else {
+    s1.classList.remove('verbos');
+    s2.classList.remove('verbos');
+    s3.classList.remove('verbos');
+  }
 }
 
 // ── Elegir unidad ─────────────────────────────────────────────────────
@@ -530,8 +599,23 @@ function elegirUnidad(key, nombre, tipo) {
   estado.subtema  = null;
   estado.tipoMesa = tipo;
 
-  // Si es unidad V (fija), apagar editor
-  // Si es unidad W (libre), mantener/activar editor
+  // Si es unidad VERBOS, agregar clase verbos a los selectores
+  const selUnidad = document.getElementById('selUnidad');
+  const selTema = document.getElementById('selTema');
+  const selSubtema = document.getElementById('selSubtema');
+  
+  if (key === 'VERBOS') {
+    selUnidad.classList.add('verbos');
+    selTema.classList.add('verbos');
+    selSubtema.classList.add('verbos');
+  } else {
+    selUnidad.classList.remove('verbos');
+    selTema.classList.remove('verbos');
+    selSubtema.classList.remove('verbos');
+  }
+
+  // Si es unidad VERBOS (fija), apagar editor
+  // Si es unidad W o T (libre), mantener/activar editor
   if (tipo === 'fija') {
     estado.editor = false;
   } else if (tipo === 'libre') {
@@ -563,13 +647,31 @@ function elegirTema(key, nombre) {
   estado.tema    = key;
   estado.subtema = null;
 
+  // Agregar clase verbos a selTema si es unidad VERBOS
+  const selTema = document.getElementById('selTema');
+  const selSubtema = document.getElementById('selSubtema');
+  if (estado.unidad === 'VERBOS') {
+    selTema.classList.add('verbos');
+    selSubtema.classList.add('verbos');
+  } else {
+    selTema.classList.remove('verbos');
+    selSubtema.classList.remove('verbos');
+  }
+
   // Sub-temas del tema elegido
   const u = UNIDADES[estado.unidad];
   const t = u.temas[key];
   const dropSub = document.getElementById('dropSubtema');
   dropSub.innerHTML = '';
   if (t.subtemas) {
-    Object.entries(t.subtemas).forEach(([k, s]) => {
+    // Ordenar alfabéticamente por nombre (antes de los :)
+    const subtemasSorted = Object.entries(t.subtemas).sort(([, a], [, b]) => {
+      const nombreA = a.nombre.split(':')[0].trim();
+      const nombreB = b.nombre.split(':')[0].trim();
+      return nombreA.localeCompare(nombreB);
+    });
+    
+    subtemasSorted.forEach(([k, s]) => {
       const div = document.createElement('div');
       div.className = 'dropdown-item';
       div.textContent = s.nombre;
@@ -586,6 +688,15 @@ function elegirTema(key, nombre) {
 // ── Elegir sub-tema ───────────────────────────────────────────────────
 function elegirSubtema(key, nombre) {
   estado.subtema = key;
+  
+  // Agregar clase verbos a selSubtema si es unidad VERBOS
+  const selSubtema = document.getElementById('selSubtema');
+  if (estado.unidad === 'VERBOS') {
+    selSubtema.classList.add('verbos');
+  } else {
+    selSubtema.classList.remove('verbos');
+  }
+  
   document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('visible'));
   actualizarSelectores();
   renderMesa();
@@ -668,20 +779,92 @@ function renderMesa() {
 }
 
 // Mesa fija: 4×2 con plantilla de 8 items — sin contenido
+// 
+// IMPORTANTE - PERSONAS/PRONOMBRES POR IDIOMA:
+// Cada idioma tiene sus propias personas/pronombres/géneros para conjugación.
+// Los datos de conjugación SIEMPRE deben mostrar la información correcta del idioma.
+//
+// Ejemplos:
+//   Español:    yo, tú, él/ella, nosotros, vosotros, ellos/ellas
+//   Francés:    je, tu, il/elle, nous, vous, ils/elles
+//   Ruso:       я, ты, он/она/оно, мы, вы, они
+//   Italiano:   io, tu, lui/lei, noi, voi, loro
+//   Alemán:     ich, du, er/sie/es, wir, ihr, sie/Sie
+//
+// La estructura de cada conjugación es: {persona: 'pronombre', forma: 'verbo conjugado'}
+// Cada idioma debe tener EXACTAMENTE las personas que necesita.
+// ────────────────────────────────────────────────────────────────────────
+
 function renderMesaFija(mesa) {
   mesa.innerHTML = '';
   const grid = document.createElement('div');
   grid.className = 'mesa-fija';
 
   const items_fija = [
-    { titulo: 'Item 1', color1: '#d63b2f', color2: '#c02a20' },
-    { titulo: 'Item 2', color1: '#e8821e', color2: '#c86a10' },
-    { titulo: 'Item 3', color1: '#e8c91e', color2: '#c8a810' },
-    { titulo: 'Item 4', color1: '#e85ca8', color2: '#c84090' },
-    { titulo: 'Item 5', color1: '#3a3a3a', color2: '#1a1a1a' },
-    { titulo: 'Item 6', color1: '#4caf3a', color2: '#2a8f20' },
-    { titulo: 'Item 7', color1: '#2f7fe0', color2: '#1060c0' },
-    { titulo: 'Item 8', color1: '#7b3fd6', color2: '#5a20b0' }
+    { titulo: 'PLUSCUAMPERFECTO', color1: '#d63b2f', color2: '#c02a20', ejemplo: 'yo había comido', conjugaciones: [
+      {persona: 'yo', forma: 'había comido'},
+      {persona: 'tú', forma: 'habías comido'},
+      {persona: 'él/ella', forma: 'había comido'},
+      {persona: 'nosotros', forma: 'habíamos comido'},
+      {persona: 'vosotros', forma: 'habíais comido'},
+      {persona: 'ellos/ellas', forma: 'habían comido'}
+    ]},
+    { titulo: 'PASADO COMPUESTO', color1: '#e8821e', color2: '#c86a10', ejemplo: 'yo he comido', conjugaciones: [
+      {persona: 'yo', forma: 'he comido'},
+      {persona: 'tú', forma: 'has comido'},
+      {persona: 'él/ella', forma: 'ha comido'},
+      {persona: 'nosotros', forma: 'hemos comido'},
+      {persona: 'vosotros', forma: 'habéis comido'},
+      {persona: 'ellos/ellas', forma: 'han comido'}
+    ]},
+    { titulo: 'IMPERFECTO', color1: '#e8c91e', color2: '#c8a810', ejemplo: 'yo comía', conjugaciones: [
+      {persona: 'yo', forma: 'comía'},
+      {persona: 'tú', forma: 'comías'},
+      {persona: 'él/ella', forma: 'comía'},
+      {persona: 'nosotros', forma: 'comíamos'},
+      {persona: 'vosotros', forma: 'comíais'},
+      {persona: 'ellos/ellas', forma: 'comían'}
+    ]},
+    { titulo: 'PASADO CONDICIONAL', color1: '#e85ca8', color2: '#c84090', ejemplo: 'yo habría comido', conjugaciones: [
+      {persona: 'yo', forma: 'habría comido'},
+      {persona: 'tú', forma: 'habrías comido'},
+      {persona: 'él/ella', forma: 'habría comido'},
+      {persona: 'nosotros', forma: 'habríamos comido'},
+      {persona: 'vosotros', forma: 'habríais comido'},
+      {persona: 'ellos/ellas', forma: 'habrían comido'}
+    ]},
+    { titulo: 'PRESENTE', color1: '#3a3a3a', color2: '#1a1a1a', ejemplo: 'yo como', conjugaciones: [
+      {persona: 'yo', forma: 'como'},
+      {persona: 'tú', forma: 'comes'},
+      {persona: 'él/ella', forma: 'come'},
+      {persona: 'nosotros', forma: 'comemos'},
+      {persona: 'vosotros', forma: 'coméis'},
+      {persona: 'ellos/ellas', forma: 'comen'}
+    ]},
+    { titulo: 'FUTURO PRÓXIMO', color1: '#4caf3a', color2: '#2a8f20', ejemplo: 'yo voy a comer', conjugaciones: [
+      {persona: 'yo', forma: 'voy a comer'},
+      {persona: 'tú', forma: 'vas a comer'},
+      {persona: 'él/ella', forma: 'va a comer'},
+      {persona: 'nosotros', forma: 'vamos a comer'},
+      {persona: 'vosotros', forma: 'vais a comer'},
+      {persona: 'ellos/ellas', forma: 'van a comer'}
+    ]},
+    { titulo: 'FUTURO SIMPLE', color1: '#2f7fe0', color2: '#1060c0', ejemplo: 'yo comeré', conjugaciones: [
+      {persona: 'yo', forma: 'comeré'},
+      {persona: 'tú', forma: 'comerás'},
+      {persona: 'él/ella', forma: 'comerá'},
+      {persona: 'nosotros', forma: 'comeremos'},
+      {persona: 'vosotros', forma: 'comeréis'},
+      {persona: 'ellos/ellas', forma: 'comerán'}
+    ]},
+    { titulo: 'CONDICIONAL', color1: '#7b3fd6', color2: '#5a20b0', ejemplo: 'yo comería', conjugaciones: [
+      {persona: 'yo', forma: 'comería'},
+      {persona: 'tú', forma: 'comerías'},
+      {persona: 'él/ella', forma: 'comería'},
+      {persona: 'nosotros', forma: 'comeríamos'},
+      {persona: 'vosotros', forma: 'comeríais'},
+      {persona: 'ellos/ellas', forma: 'comerían'}
+    ]}
   ];
 
   items_fija.forEach(t => {
@@ -690,10 +873,24 @@ function renderMesaFija(mesa) {
     card.style.background = `linear-gradient(#ffffff, #ffffff) padding-box, linear-gradient(135deg, ${t.color1}, ${t.color2}) border-box`;
     card.style.border = `var(--card-border-w) solid transparent`;
     card.style.borderRadius = `var(--card-radius)`;
+    
+    let conjugacionesHTML = '';
+    t.conjugaciones.forEach(conj => {
+      conjugacionesHTML += `
+        <tr style="border-bottom: 1px solid #f0f0f0;">
+          <td style="padding: 6px; color: #000; font-weight: 600; width: 40%;">${conj.persona}</td>
+          <td style="padding: 6px; color: ${t.color1}; font-weight: 600;">${conj.forma}</td>
+        </tr>
+      `;
+    });
+    
     card.innerHTML = `
-      <div class="tarjeta-titulo" style="color: ${t.color1};">${t.titulo}</div>
-      <div class="tarjeta-cuerpo" style="flex:1; display:flex; align-items:center; justify-content:center; color:#ccc; font-size:12px;">
-        contenido
+      <div class="tarjeta-titulo" style="color: ${t.color1}; text-align: center;">${t.titulo}</div>
+      <div style="padding: 8px 16px; font-size: 11px; color: #999; text-align: center;">${t.ejemplo}</div>
+      <div class="tarjeta-cuerpo">
+        <table style="width:100%; border-collapse: collapse; font-size: 12px; line-height: 1.5;">
+          ${conjugacionesHTML}
+        </table>
       </div>`;
     grid.appendChild(card);
   });
