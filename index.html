@@ -9,6 +9,43 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <title>Letritas</title>
+
+<!-- 
+================================================================================
+PALETA DE COLORES ESTÁNDAR (23 colores únicos)
+Usable en todas las apps. Cada color tiene: color1 (fuerte) + color2 (suave)
+Gradiente: linear-gradient(135deg, color1 0%, color1 70%, color2 100%)
+================================================================================
+
+const PALETA_COLORES = [
+  { nombre: 'Rojo',            color1: '#E63946', color2: '#F7B8BE' },
+  { nombre: 'Amarillo',        color1: '#FFC93C', color2: '#FFE9A8' },
+  { nombre: 'Negro',           color1: '#2A2A2A', color2: '#B8B8B8' },
+  { nombre: 'Blanco',          color1: '#FAFAFA', color2: '#E8E8E8' },
+  { nombre: 'Verde Claro',     color1: '#6FCF3D', color2: '#C5EBA8' },
+  { nombre: 'Turquesa',        color1: '#17B8CE', color2: '#A8E8F0' },
+  { nombre: 'Naranja',         color1: '#F0932F', color2: '#F9D4B8' },
+  { nombre: 'Rosa',            color1: '#E89CB8', color2: '#F5D9E8' },
+  { nombre: 'Fuxia',           color1: '#FF4D9F', color2: '#FFB8D9' },
+  { nombre: 'Violeta',         color1: '#8557D4', color2: '#D4C4F0' },
+  { nombre: 'Lavanda',         color1: '#CCB0E3', color2: '#E9DFF1' },
+  { nombre: 'Aqua',            color1: '#4A9FB5', color2: '#B5D9E8' },
+  { nombre: 'Celeste',         color1: '#B8E3F0', color2: '#E8F5FB' },
+  { nombre: 'Gris',            color1: '#6B6B63', color2: '#D0CFC5' },
+  { nombre: 'Piedra',          color1: '#8B7B6F', color2: '#D9CFC4' },
+  { nombre: 'Dorado',          color1: '#B8860B', color2: '#F0E68C' },
+  { nombre: 'Arena',           color1: '#C9A961', color2: '#E8D5B7' },
+  { nombre: 'Marrón',          color1: '#6B4423', color2: '#C89968' },
+  { nombre: 'Verde Oscuro',    color1: '#1B4D3E', color2: '#7FB3A0' },
+  { nombre: 'Musgo',           color1: '#556B2F', color2: '#9ACD32' },
+  { nombre: 'Menta',           color1: '#9ADEC9', color2: '#E0F5ED' },
+  { nombre: 'Azul',            color1: '#1E3A8A', color2: '#93C5FD' },
+  { nombre: 'Bordeaux',        color1: '#5C1E1E', color2: '#DC8E8E' }
+];
+
+================================================================================
+-->
+
 <style>
 
 /* =====================================================================
@@ -50,7 +87,7 @@
   --card-bg:       #ffffff;
   --card-radius:   16px;
   --card-padding:  16px;
-  --card-border-w: 3px;
+  --card-border-w: 3.5px;
 
   /* Fuente */
   --font: 'Quicksand', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
@@ -74,7 +111,8 @@ header {
   top: 0; left: 0;
   width: var(--w);
   height: var(--header-h);
-  background: var(--bg-header);
+  background: rgba(192, 192, 192, 0.45);
+  backdrop-filter: blur(8px);
   border-bottom: none;
   display: flex;
   align-items: center;
@@ -112,7 +150,7 @@ header {
 }
 
 /* Ancho mínimo diferenciado — el 1 es el más largo */
-.sel-unidad   { min-width: 200px; }
+.sel-unidad   { min-width: 200px; font-size: 16px; font-weight: 600; }
 .sel-tema     { min-width: 120px; }
 .sel-subtema  { min-width: 100px; }
 
@@ -124,20 +162,28 @@ header {
     linear-gradient(135deg, #888886, #606060) border-box;
 }
 
+/* Selector ABECEDARIO — degradé Aqua en el borde */
+.selector.abecedario {
+  color: #3a3a38;
+  background:
+    linear-gradient(#ffffff, #ffffff) padding-box,
+    linear-gradient(135deg, #4A9FB5, #B5D9E8) border-box;
+}
+
 
 /* Selector VERBOS — degradé radial de 7 colores alrededor del borde */
 .selector.verbos {
   background:
     linear-gradient(#ffffff, #ffffff) padding-box,
     conic-gradient(
-      #e8c91e,      /* Amarillo - Imperfecto */
-      #e8821e,      /* Naranja - Pasado Compuesto */
-      #d63b2f,      /* Rojo - Pluscuamperfecto */
-      #e85ca8,      /* Rosa - Pasado Condicional */
-      #7b3fd6,      /* Violeta - Condicional */
-      #2f7fe0,      /* Azul - Futuro Simple */
-      #4caf3a,      /* Verde - Futuro Próximo */
-      #e8c91e       /* Amarillo nuevamente para cerrar el círculo */
+      #FFC93C,      /* Amarillo */
+      #F0932F,      /* Naranja */
+      #E63946,      /* Rojo */
+      #FF4D9F,      /* Fuxia */
+      #8557D4,      /* Violeta */
+      #17B8CE,      /* Turquesa */
+      #6FCF3D,      /* Verde Claro */
+      #FFC93C       /* Amarillo nuevamente para cerrar el círculo */
     ) border-box;
 }
 
@@ -198,6 +244,59 @@ header {
   pointer-events: none;
   opacity: 0.2;
   filter: grayscale(100%);
+}
+
+/* Menú desplegable de tarjetas */
+.menu-tarjetas {
+  position: absolute;
+  bottom: -180px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border: 3.5px solid transparent;
+  background-clip: padding-box;
+  background-image: linear-gradient(white, white), linear-gradient(135deg, #c8c8c6, #a0a0a0);
+  background-origin: padding-box, border-box;
+  border-radius: 12px;
+  padding: 12px;
+  min-width: 180px;
+  width: max-content;
+  max-width: 400px;
+  max-height: 160px;
+  overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 999;
+}
+
+.menu-tarjetas.visible {
+  display: flex;
+}
+
+.menu-tarjetas-item {
+  padding: 8px 12px;
+  background: #f5f5f5;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #333;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s;
+  border-bottom: 1px solid #eee;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+.menu-tarjetas-item:last-child {
+  border-bottom: none;
+}
+
+.menu-tarjetas-item:hover {
+  background: #e8e8e8;
+  color: #000;
 }
 
 /* =====================================================================
@@ -360,7 +459,10 @@ header {
 
   <!-- BOTONES EDICIÓN DERECHA -->
   <div class="botones-edicion">
-    <div class="btn-editor deshabilitado" id="btnTarjetas" onclick="abrirTarjetas()" title="Tarjetas">T</div>
+    <div style="position: relative;">
+      <div class="btn-editor deshabilitado" id="btnTarjetas" onclick="abrirTarjetas()" title="Tarjetas">T</div>
+      <div class="menu-tarjetas" id="menuTarjetas"></div>
+    </div>
     <div class="btn-editor deshabilitado" id="btnGuardar"  onclick="guardar()"       title="Guardar">S</div>
     <div class="btn-editor deshabilitado" id="btnLapiz"    onclick="toggleEditor()"  title="Editor">✏️</div>
   </div>
@@ -422,24 +524,40 @@ const estado = {
 // ────────────────────────────────────────────────────────────────────────
 
 const UNIDADES = {
-  'W': {
-    nombre: 'W',
+  'ABECEDARIO': {
+    nombre: 'ABECEDARIO',
     tipo: 'libre',
     temas: null
   },
-  'T': {
-    nombre: 'T',
+  'CASOS': {
+    nombre: 'CASOS',
     tipo: 'libre',
-    temas: {
-      'T1': { 
-        nombre: 'T1', 
-        subtemas: {
-          'T1a': { nombre: 'T1a' },
-          'T1b': { nombre: 'T1b' }
-        }
-      },
-      'T2': { nombre: 'T2', subtemas: null }
-    }
+    temas: null
+  },
+  'CULTURA': {
+    nombre: 'CULTURA',
+    tipo: 'libre',
+    temas: null
+  },
+  'GEOGRAFÍA Y CLIMA': {
+    nombre: 'GEOGRAFÍA Y CLIMA',
+    tipo: 'libre',
+    temas: null
+  },
+  'MODOS Y FRASES': {
+    nombre: 'MODOS Y FRASES',
+    tipo: 'libre',
+    temas: null
+  },
+  'NÚMEROS Y TIEMPO': {
+    nombre: 'NÚMEROS Y TIEMPO',
+    tipo: 'libre',
+    temas: null
+  },
+  'PERSONAS': {
+    nombre: 'PERSONAS',
+    tipo: 'libre',
+    temas: null
   },
   'VERBOS': {
     nombre: 'VERBOS',
@@ -462,58 +580,162 @@ const UNIDADES = {
         }
       }
     }
+  },
+  'VOCABULARIO': {
+    nombre: 'VOCABULARIO',
+    tipo: 'libre',
+    temas: null
   }
 };
 
-// ── CONTENIDO DE TARJETAS (prueba para W) ──────────────────────────────
+// ── CONTENIDO DE TARJETAS ──────────────────────────────────────────────────
 const CONTENIDO_TARJETAS = {
-  'W': [
+  'ABECEDARIO': [
     {
-      id: 'tarjeta-texto',
-      titulo: 'Tarjeta de Texto',
-      tipo: 'texto',
+      id: 'tarjeta-abecedario',
+      titulo: 'Abecedario',
+      tipo: 'abecedario',
       render: function() {
         const div = document.createElement('div');
         div.className = 'tarjeta';
-        div.innerHTML = `
-          <div class="tarjeta-titulo">Tarjeta de Texto</div>
-          <div class="tarjeta-cuerpo">
-            Esto es una prueba de texto
-          </div>
+        div.style.background = `linear-gradient(#ffffff, #ffffff) padding-box, linear-gradient(135deg, #4A9FB5, #B5D9E8) border-box`;
+        div.style.border = `var(--card-border-w) solid transparent`;
+        div.style.borderRadius = `var(--card-radius)`;
+        let html = `
+          <div class="tarjeta-titulo">Abecedario</div>
+          <div class="tarjeta-cuerpo" style="padding:0;">
         `;
+        
+        // Datos modelo español COMPLETO
+        const abecedario = [
+          { may: 'A', min: 'a', palabra: 'Abeja', representa: 'A' },
+          { may: 'B', min: 'b', palabra: 'Barco', representa: 'B' },
+          { may: 'C', min: 'c', palabra: 'Casa', representa: 'C' },
+          { may: 'D', min: 'd', palabra: 'Dado', representa: 'D' },
+          { may: 'E', min: 'e', palabra: 'Elefante', representa: 'E' },
+          { may: 'F', min: 'f', palabra: 'Flor', representa: 'F' },
+          { may: 'G', min: 'g', palabra: 'Gato', representa: 'G' },
+          { may: 'H', min: 'h', palabra: 'Hermano', representa: 'H' },
+          { may: 'I', min: 'i', palabra: 'Iglesia', representa: 'I' },
+          { may: 'J', min: 'j', palabra: 'Jirafa', representa: 'J' },
+          { may: 'K', min: 'k', palabra: 'Kilo', representa: 'K' },
+          { may: 'L', min: 'l', palabra: 'León', representa: 'L' },
+          { may: 'M', min: 'm', palabra: 'Manzana', representa: 'M' },
+          { may: 'N', min: 'n', palabra: 'Nube', representa: 'N' },
+          { may: 'Ñ', min: 'ñ', palabra: 'Niño', representa: 'Ñ' },
+          { may: 'O', min: 'o', palabra: 'Oso', representa: 'O' },
+          { may: 'P', min: 'p', palabra: 'Pato', representa: 'P' },
+          { may: 'Q', min: 'q', palabra: 'Queso', representa: 'Q' },
+          { may: 'R', min: 'r', palabra: 'Rana', representa: 'R' },
+          { may: 'S', min: 's', palabra: 'Sol', representa: 'S' },
+          { may: 'T', min: 't', palabra: 'Tigre', representa: 'T' },
+          { may: 'U', min: 'u', palabra: 'Uva', representa: 'U' },
+          { may: 'V', min: 'v', palabra: 'Vaca', representa: 'V' },
+          { may: 'W', min: 'w', palabra: 'Whisky', representa: 'W' },
+          { may: 'X', min: 'x', palabra: 'Xilófono', representa: 'X' },
+          { may: 'Y', min: 'y', palabra: 'Yo-yo', representa: 'Y' },
+          { may: 'Z', min: 'z', palabra: 'Zapato', representa: 'Z' }
+        ];
+        
+        abecedario.forEach((letra, idx) => {
+          html += `
+            <div style="display:flex; align-items:center; padding:6px 8px; border-bottom:1px solid #eee; gap:30px;">
+              <div style="width:50px; text-align:center; cursor:pointer; user-select:none; font-weight:700;" class="hablar" data-hablar="${letra.min}">
+                <span style="font-size:28px; color:#4A9FB5;">${letra.may}</span> <span style="font-size:18px; color:#17B8CE;">${letra.min}</span>
+              </div>
+              <div style="flex:1; cursor:pointer; user-select:none; font-size:16px;" class="hablar" data-hablar="${letra.palabra}">
+                ${letra.palabra}
+              </div>
+              <div style="width:30px; text-align:center; font-weight:600; font-size:14px; color:#666;">
+                ${letra.representa}
+              </div>
+            </div>
+          `;
+        });
+        
+        html += `</div>`;
+        div.innerHTML = html;
+        
         return div;
       }
     },
     {
-      id: 'tarjeta-columnas',
-      titulo: 'Tarjeta de Columnas',
-      tipo: 'columnas',
+      id: 'tarjeta-diacriticos',
+      titulo: 'Caracteres Especiales',
+      tipo: 'diacriticos',
       render: function() {
         const div = document.createElement('div');
         div.className = 'tarjeta';
+        div.style.background = `linear-gradient(#ffffff, #ffffff) padding-box, linear-gradient(135deg, #4A9FB5, #B5D9E8) border-box`;
+        div.style.border = `var(--card-border-w) solid transparent`;
+        div.style.borderRadius = `var(--card-radius)`;
         let html = `
-          <div class="tarjeta-titulo">Tarjeta de Columnas</div>
-          <div class="tarjeta-cuerpo">
-            <table style="width:100%; border-collapse: collapse; font-size: 12px;">
+          <div class="tarjeta-titulo">Caracteres Especiales</div>
+          <div class="tarjeta-cuerpo" style="padding:0;">
         `;
-        for (let i = 0; i < 10; i++) {
+        
+        // Caracteres especiales y diacríticos del español
+        const diacriticos = [
+          { car: 'Á', min: 'á', desc: 'A con acento agudo', palabra: 'Árbol' },
+          { car: 'É', min: 'é', desc: 'E con acento agudo', palabra: 'Éxito' },
+          { car: 'Í', min: 'í', desc: 'I con acento agudo', palabra: 'Inútil' },
+          { car: 'Ó', min: 'ó', desc: 'O con acento agudo', palabra: 'Óptimo' },
+          { car: 'Ú', min: 'ú', desc: 'U con acento agudo', palabra: 'Último' },
+          { car: 'Ü', min: 'ü', desc: 'U con diéresis', palabra: 'Pingüino' },
+          { car: 'Ñ', min: 'ñ', desc: 'N con tilde', palabra: 'Niño' }
+        ];
+        
+        diacriticos.forEach((d, idx) => {
           html += `
-            <tr style="border-bottom: 1px solid #eee;">
-              <td style="padding: 4px; font-weight: 600;">prueba</td>
-              <td style="padding: 4px;">texto columnas</td>
-            </tr>
+            <div style="display:flex; align-items:center; padding:6px 8px; border-bottom:1px solid #eee; gap:30px;">
+              <div style="width:50px; text-align:center; cursor:pointer; user-select:none; font-weight:700;" class="hablar" data-hablar="${d.min}">
+                <span style="font-size:28px; color:#4A9FB5;">${d.car}</span> <span style="font-size:18px; color:#17B8CE;">${d.min}</span>
+              </div>
+              <div style="flex:1; cursor:pointer; user-select:none; font-size:14px; color:#555;" class="hablar" data-hablar="${d.palabra}">
+                ${d.desc}
+              </div>
+              <div style="width:auto; text-align:center; font-weight:600; font-size:14px; color:#666; min-width:50px;">
+                ${d.palabra}
+              </div>
+            </div>
           `;
-        }
-        html += `
-            </table>
-          </div>
-        `;
+        });
+        
+        html += `</div>`;
         div.innerHTML = html;
+        
         return div;
       }
     }
-  ]
+  ],
+  'CULTURA': [],
+  'GEOGRAFÍA Y CLIMA': [],
+  'NÚMEROS Y TIEMPO': [],
+  'MODOS Y FRASES': [],
+  'PERSONAS': [],
+  'CASOS': [],
+  'VOCABULARIO': []
 };
+
+// ── Leer palabras y letras con Web Speech API ───────────────────────────
+function hablar(texto, lang = 'es-ES') {
+  if (!texto || !('speechSynthesis' in window)) return;
+  
+  window.speechSynthesis.cancel();
+  
+  const utterance = new SpeechSynthesisUtterance(texto);
+  utterance.lang = lang;
+  utterance.rate = 0.46; // Lento como en Ruso
+  utterance.pitch = 1.0;
+  
+  window.speechSynthesis.speak(utterance);
+}
+
+// Delegación de eventos: cualquier elemento con data-hablar="texto" al clickear
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-hablar]');
+  if (el) hablar(el.dataset.hablar);
+});
 
 // ── Dropdowns ─────────────────────────────────────────────────────────
 function toggleDropdown(id) {
@@ -528,6 +750,9 @@ function toggleDropdown(id) {
 document.addEventListener('click', e => {
   if (!e.target.closest('.selector') && !e.target.closest('.dropdown')) {
     document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('visible'));
+  }
+  if (!e.target.closest('#btnTarjetas') && !e.target.closest('.menu-tarjetas')) {
+    document.getElementById('menuTarjetas')?.classList.remove('visible');
   }
 });
 
@@ -604,14 +829,17 @@ function elegirUnidad(key, nombre, tipo) {
   const selTema = document.getElementById('selTema');
   const selSubtema = document.getElementById('selSubtema');
   
+  // Remover todas las clases especiales primero
+  selUnidad.classList.remove('verbos', 'abecedario');
+  selTema.classList.remove('verbos', 'abecedario');
+  selSubtema.classList.remove('verbos', 'abecedario');
+  
   if (key === 'VERBOS') {
     selUnidad.classList.add('verbos');
     selTema.classList.add('verbos');
     selSubtema.classList.add('verbos');
-  } else {
-    selUnidad.classList.remove('verbos');
-    selTema.classList.remove('verbos');
-    selSubtema.classList.remove('verbos');
+  } else if (key === 'ABECEDARIO') {
+    selUnidad.classList.add('abecedario');
   }
 
   // Si es unidad VERBOS (fija), apagar editor
@@ -646,6 +874,9 @@ function elegirUnidad(key, nombre, tipo) {
   actualizarBotones();
   actualizarSelectores();
   renderMesa();
+  
+  // Disparar evento para cambiar partículas
+  window.dispatchEvent(new CustomEvent('cambioUnidad', { detail: { unidad: key } }));
 }
 
 // ── Elegir tema ───────────────────────────────────────────────────────
@@ -760,6 +991,75 @@ function apagarEditor() {
 
 function abrirTarjetas() {
   if (!estado.editor) return;
+  
+  const menu = document.getElementById('menuTarjetas');
+  const clave = estado.unidad;
+  const tarjetasDisponibles = CONTENIDO_TARJETAS[clave] || [];
+  
+  // Toggle: si está visible, ocultarlo; si no, mostrarlo
+  if (menu.classList.contains('visible')) {
+    menu.classList.remove('visible');
+    return;
+  }
+  
+  // Generar items del menú
+  menu.innerHTML = '';
+  
+  if (tarjetasDisponibles.length === 0) {
+    const item = document.createElement('div');
+    item.className = 'menu-tarjetas-item';
+    item.textContent = 'Sin tarjetas';
+    item.style.pointerEvents = 'none';
+    item.style.color = '#999';
+    menu.appendChild(item);
+  } else {
+    tarjetasDisponibles.forEach((def, idx) => {
+      const item = document.createElement('div');
+      item.className = 'menu-tarjetas-item';
+      
+      // Verificar si está visible
+      const estaVisible = !estado.tarjetas[def.id] || estado.tarjetas[def.id].visible !== false;
+      const color = estaVisible ? '#6FCF3D' : '#bbb'; // Verde si visible, gris si no
+      
+      // Obtener título REAL de la tarjeta
+      const titulo = def.titulo || def.nombre || `Tarjeta ${idx + 1}`;
+      
+      item.innerHTML = `<span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: ${color}; margin-right: 8px; vertical-align: middle;"></span>${titulo}`;
+      item.onclick = (e) => {
+        e.stopPropagation();
+        toggleTarjeta(idx);
+        menu.classList.remove('visible');
+      };
+      menu.appendChild(item);
+    });
+  }
+  
+  menu.classList.add('visible');
+}
+
+function toggleTarjeta(idx) {
+  const clave = estado.unidad;
+  const tarjetasDisponibles = CONTENIDO_TARJETAS[clave] || [];
+  
+  if (idx >= 0 && idx < tarjetasDisponibles.length) {
+    const def = tarjetasDisponibles[idx];
+    
+    // Si la tarjeta existe en estado.tarjetas
+    if (estado.tarjetas[def.id]) {
+      // Toggle visibilidad
+      estado.tarjetas[def.id].visible = !estado.tarjetas[def.id].visible;
+    } else {
+      // Primera vez: crearla visible
+      estado.tarjetas[def.id] = {
+        left: 100 + (idx * 30),
+        top: 100 + (idx * 30),
+        escala: 1,
+        visible: true
+      };
+    }
+    
+    renderMesa();
+  }
 }
 
 function guardar() {
@@ -799,7 +1099,7 @@ const CONJUGACIONES_VERBOS = {
     infinitivo: 'comer',
     participio: 'comido',
     tiempos: [
-      { titulo: 'PLUSCUAMPERFECTO', color1: '#d63b2f', color2: '#c02a20', ejemplo: 'yo había comido', conjugaciones: [
+      { titulo: 'PLUSCUAMPERFECTO', color1: '#E63946', color2: '#F7B8BE', ejemplo: 'yo había comido', conjugaciones: [
         {persona: 'yo', forma: 'había comido'},
         {persona: 'tú', forma: 'habías comido'},
         {persona: 'él/ella', forma: 'había comido'},
@@ -807,7 +1107,7 @@ const CONJUGACIONES_VERBOS = {
         {persona: 'vosotros', forma: 'habíais comido'},
         {persona: 'ellos/ellas', forma: 'habían comido'}
       ]},
-      { titulo: 'PASADO COMPUESTO', color1: '#e8821e', color2: '#c86a10', ejemplo: 'yo he comido', conjugaciones: [
+      { titulo: 'PASADO COMPUESTO', color1: '#F0932F', color2: '#F9D4B8', ejemplo: 'yo he comido', conjugaciones: [
         {persona: 'yo', forma: 'he comido'},
         {persona: 'tú', forma: 'has comido'},
         {persona: 'él/ella', forma: 'ha comido'},
@@ -815,7 +1115,7 @@ const CONJUGACIONES_VERBOS = {
         {persona: 'vosotros', forma: 'habéis comido'},
         {persona: 'ellos/ellas', forma: 'han comido'}
       ]},
-      { titulo: 'IMPERFECTO', color1: '#e8c91e', color2: '#c8a810', ejemplo: 'yo comía', conjugaciones: [
+      { titulo: 'IMPERFECTO', color1: '#FFC93C', color2: '#FFE9A8', ejemplo: 'yo comía', conjugaciones: [
         {persona: 'yo', forma: 'comía'},
         {persona: 'tú', forma: 'comías'},
         {persona: 'él/ella', forma: 'comía'},
@@ -823,7 +1123,7 @@ const CONJUGACIONES_VERBOS = {
         {persona: 'vosotros', forma: 'comíais'},
         {persona: 'ellos/ellas', forma: 'comían'}
       ]},
-      { titulo: 'PASADO CONDICIONAL', color1: '#e85ca8', color2: '#c84090', ejemplo: 'yo habría comido', conjugaciones: [
+      { titulo: 'PASADO CONDICIONAL', color1: '#FF4D9F', color2: '#FFB8D9', ejemplo: 'yo habría comido', conjugaciones: [
         {persona: 'yo', forma: 'habría comido'},
         {persona: 'tú', forma: 'habrías comido'},
         {persona: 'él/ella', forma: 'habría comido'},
@@ -831,7 +1131,7 @@ const CONJUGACIONES_VERBOS = {
         {persona: 'vosotros', forma: 'habríais comido'},
         {persona: 'ellos/ellas', forma: 'habrían comido'}
       ]},
-      { titulo: 'PRESENTE', color1: '#3a3a3a', color2: '#1a1a1a', ejemplo: 'yo como', conjugaciones: [
+      { titulo: 'PRESENTE', color1: '#2A2A2A', color2: '#B8B8B8', ejemplo: 'yo como', conjugaciones: [
         {persona: 'yo', forma: 'como'},
         {persona: 'tú', forma: 'comes'},
         {persona: 'él/ella', forma: 'come'},
@@ -839,7 +1139,7 @@ const CONJUGACIONES_VERBOS = {
         {persona: 'vosotros', forma: 'coméis'},
         {persona: 'ellos/ellas', forma: 'comen'}
       ]},
-      { titulo: 'FUTURO PRÓXIMO', color1: '#4caf3a', color2: '#2a8f20', ejemplo: 'yo voy a comer', conjugaciones: [
+      { titulo: 'FUTURO PRÓXIMO', color1: '#6FCF3D', color2: '#C5EBA8', ejemplo: 'yo voy a comer', conjugaciones: [
         {persona: 'yo', forma: 'voy a comer'},
         {persona: 'tú', forma: 'vas a comer'},
         {persona: 'él/ella', forma: 'va a comer'},
@@ -847,7 +1147,7 @@ const CONJUGACIONES_VERBOS = {
         {persona: 'vosotros', forma: 'vais a comer'},
         {persona: 'ellos/ellas', forma: 'van a comer'}
       ]},
-      { titulo: 'FUTURO SIMPLE', color1: '#2f7fe0', color2: '#1060c0', ejemplo: 'yo comeré', conjugaciones: [
+      { titulo: 'FUTURO SIMPLE', color1: '#17B8CE', color2: '#A8E8F0', ejemplo: 'yo comeré', conjugaciones: [
         {persona: 'yo', forma: 'comeré'},
         {persona: 'tú', forma: 'comerás'},
         {persona: 'él/ella', forma: 'comerá'},
@@ -855,7 +1155,7 @@ const CONJUGACIONES_VERBOS = {
         {persona: 'vosotros', forma: 'comeréis'},
         {persona: 'ellos/ellas', forma: 'comerán'}
       ]},
-      { titulo: 'CONDICIONAL', color1: '#7b3fd6', color2: '#5a20b0', ejemplo: 'yo comería', conjugaciones: [
+      { titulo: 'CONDICIONAL', color1: '#8557D4', color2: '#D4C4F0', ejemplo: 'yo comería', conjugaciones: [
         {persona: 'yo', forma: 'comería'},
         {persona: 'tú', forma: 'comerías'},
         {persona: 'él/ella', forma: 'comería'},
@@ -1299,6 +1599,11 @@ function renderMesaLibre(mesa) {
   tarjetasDisponibles.forEach(def => {
     if (!def.render) return;
 
+    // Check de visibilidad: si existe en estado y está marcada como invisible, no renderizar
+    if (estado.tarjetas[def.id] && estado.tarjetas[def.id].visible === false) {
+      return;
+    }
+
     const tarjeta = def.render();
     tarjeta.id = def.id;
     tarjeta.style.position = 'absolute';
@@ -1307,12 +1612,14 @@ function renderMesaLibre(mesa) {
     if (estado.tarjetas[def.id]) {
       tarjeta.style.left = estado.tarjetas[def.id].left + 'px';
       tarjeta.style.top = estado.tarjetas[def.id].top + 'px';
-      const scale = estado.tarjetas[def.id].scale || 1;
-      tarjeta.style.transform = `scale(${scale})`;
+      const escala = estado.tarjetas[def.id].escala || 1;
+      tarjeta.style.transform = `scale(${escala})`;
+      tarjeta.style.transformOrigin = 'top left';
     } else {
       tarjeta.style.left = '20px';
       tarjeta.style.top = (20 + tarjetasDisponibles.indexOf(def) * 120) + 'px';
       tarjeta.style.transform = 'scale(1)';
+      tarjeta.style.transformOrigin = 'top left';
     }
     
     tarjeta.draggable = true;
@@ -1325,100 +1632,127 @@ function renderMesaLibre(mesa) {
 }
 
 // ── Arrastre de tarjetas ──────────────────────────────────────────────
-// Se aplica al título de cada tarjeta en mesa libre
+// Mecánica: 1 dedo = arrastre, 2 dedos = pinch-to-zoom
 function activarArrastre(tarjeta, id) {
-  let initialDistance = 0;
-  let initialScale = 1;
-  let isPinching = false;
+  const MIN_ESCALA = 0.5;
+  const MAX_ESCALA = 1;
 
-  // ── PINCH-TO-ZOOM (dos dedos) ──
-  tarjeta.addEventListener('touchstart', (ev) => {
-    if (ev.touches.length === 2) {
-      isPinching = true;
-      const touch1 = ev.touches[0];
-      const touch2 = ev.touches[1];
-      const dx = touch1.clientX - touch2.clientX;
-      const dy = touch1.clientY - touch2.clientY;
-      initialDistance = Math.sqrt(dx * dx + dy * dy);
-      initialScale = parseFloat(tarjeta.style.transform.match(/scale\(([\d.]+)\)/)?.[1] || '1');
-    } else if (ev.touches.length === 1) {
-      isPinching = false;
-    }
-  }, { passive: true });
+  const pointers = new Map(); // pointerId -> {x, y}
+  let modo = null;            // 'arrastre' | 'pellizco'
+  let dragInfo = null;
+  let pinchInicial = null;    // { distancia, escala }
 
-  tarjeta.addEventListener('touchmove', (ev) => {
-    if (ev.touches.length === 2) {
-      isPinching = true;
-      ev.preventDefault();
-      const touch1 = ev.touches[0];
-      const touch2 = ev.touches[1];
-      const dx = touch1.clientX - touch2.clientX;
-      const dy = touch1.clientY - touch2.clientY;
-      const distance = Math.sqrt(dx * dx + dy * dy);
+  function escalaGuardada() {
+    const pos = estado.tarjetas[id];
+    return (pos && pos.escala) || 1;
+  }
 
-      let newScale = initialScale * (distance / initialDistance);
-      newScale = Math.min(Math.max(newScale, 0.6), 1);
-      tarjeta.style.transform = `scale(${newScale})`;
-    }
-  }, { passive: false });
+  function escalaActual() {
+    const m = /scale\(([\d.]+)\)/.exec(tarjeta.style.transform || '');
+    return m ? parseFloat(m[1]) : escalaGuardada();
+  }
 
-  tarjeta.addEventListener('touchend', () => {
-    isPinching = false;
-  });
+  function aplicarEscala(e) {
+    tarjeta.style.transform = `scale(${e})`;
+    tarjeta.style.transformOrigin = 'top left';
+  }
 
-  // ── ARRASTRE (un dedo SOLAMENTE) ──
-  tarjeta.addEventListener('pointerdown', ev => {
+  function distanciaEntre(p1, p2) {
+    return Math.hypot(p1.x - p2.x, p1.y - p2.y);
+  }
+
+  function onPointerDown(ev) {
     if (!estado.editor) return;
-    
-    // Solo si es 1 dedo (no múltiples toques)
-    const touchCount = ev.touches ? ev.touches.length : 0;
-    if (touchCount > 1 || isPinching) return;
-    
-    ev.preventDefault();
-    tarjeta.classList.add('dragging');
-    tarjeta.style.zIndex = 1000;
-    const mesa = document.getElementById('mesa');
-    const rectMesa = mesa.getBoundingClientRect();
-    const rectCard = tarjeta.getBoundingClientRect();
+    const esTitulo = ev.target.closest('.tarjeta-titulo');
+    pointers.set(ev.pointerId, { x: ev.clientX, y: ev.clientY });
 
-    const ox = ev.clientX - rectCard.left;
-    const oy = ev.clientY - rectCard.top;
-    const maxX = rectMesa.width  - rectCard.width;
-    const maxY = rectMesa.height - rectCard.height;
+    if (pointers.size === 1 && esTitulo) {
+      ev.preventDefault();
+      modo = 'arrastre';
+      tarjeta.style.zIndex = 1000;
+      const mesa = document.getElementById('mesa');
+      const rectMesa = mesa.getBoundingClientRect();
+      const rectCard = tarjeta.getBoundingClientRect();
+      dragInfo = {
+        ox: ev.clientX - rectCard.left,
+        oy: ev.clientY - rectCard.top,
+        maxX: rectMesa.width  - rectCard.width,
+        maxY: rectMesa.height - rectCard.height,
+        rectMesa
+      };
+    } else if (pointers.size === 2) {
+      ev.preventDefault();
+      modo = 'pellizco';
+      const pts = Array.from(pointers.values());
+      pinchInicial = { distancia: distanciaEntre(pts[0], pts[1]), escala: escalaActual() };
+    }
+  }
 
-    function mover(ev2) {
-      const nx = Math.min(Math.max(0, ev2.clientX - rectMesa.left - ox), maxX);
-      const ny = Math.min(Math.max(0, ev2.clientY - rectMesa.top  - oy), maxY);
+  function onPointerMove(ev) {
+    if (!pointers.has(ev.pointerId)) return;
+    pointers.set(ev.pointerId, { x: ev.clientX, y: ev.clientY });
+
+    if (modo === 'arrastre' && pointers.size === 1) {
+      const nx = Math.min(Math.max(0, ev.clientX - dragInfo.rectMesa.left - dragInfo.ox), dragInfo.maxX);
+      const ny = Math.min(Math.max(0, ev.clientY - dragInfo.rectMesa.top  - dragInfo.oy), dragInfo.maxY);
       tarjeta.style.left = nx + 'px';
       tarjeta.style.top  = ny + 'px';
+    } else if (modo === 'pellizco' && pointers.size === 2) {
+      const pts = Array.from(pointers.values());
+      const factor = distanciaEntre(pts[0], pts[1]) / pinchInicial.distancia;
+      const nueva = Math.min(MAX_ESCALA, Math.max(MIN_ESCALA, pinchInicial.escala * factor));
+      aplicarEscala(nueva);
     }
-    function soltar() {
-      document.removeEventListener('pointermove', mover);
-      document.removeEventListener('pointerup', soltar);
-      tarjeta.classList.remove('dragging');
+  }
+
+  function onPointerUp(ev) {
+    pointers.delete(ev.pointerId);
+
+    if (modo === 'arrastre') {
       estado.tarjetas[id] = {
+        ...(estado.tarjetas[id] || {}),
         left: parseInt(tarjeta.style.left),
-        top:  parseInt(tarjeta.style.top),
-        scale: parseFloat(tarjeta.style.transform.match(/scale\(([\d.]+)\)/)?.[1] || '1')
+        top:  parseInt(tarjeta.style.top)
+      };
+    } else if (modo === 'pellizco') {
+      estado.tarjetas[id] = {
+        ...(estado.tarjetas[id] || {}),
+        escala: escalaActual()
       };
     }
 
-    document.addEventListener('pointermove', mover);
-    document.addEventListener('pointerup', soltar);
-  });
+    if (pointers.size < 2) modo = null;
+  }
+
+  tarjeta.addEventListener('pointerdown', onPointerDown);
+  document.addEventListener('pointermove', onPointerMove);
+  document.addEventListener('pointerup', onPointerUp);
+  document.addEventListener('pointercancel', onPointerUp);
 }
 
 // ── Inicialización al cargar ──────────────────────────────────────────
 function iniciarDropdownUnidades() {
   const drop = document.getElementById('dropUnidad');
   drop.innerHTML = '';
-  Object.entries(UNIDADES).forEach(([key, u]) => {
+  
+  // Ordenar unidades alfabéticamente por nombre
+  const unidadesOrdenadas = Object.entries(UNIDADES).sort(([, a], [, b]) => {
+    return a.nombre.localeCompare(b.nombre);
+  });
+  
+  unidadesOrdenadas.forEach(([key, u]) => {
     const div = document.createElement('div');
     div.className = 'dropdown-item';
     div.textContent = u.nombre;
     div.onclick = () => elegirUnidad(key, u.nombre, u.tipo);
     drop.appendChild(div);
   });
+  
+  // Seleccionar automáticamente la primera unidad al abrir
+  if (unidadesOrdenadas.length > 0) {
+    const [primerKey, primerU] = unidadesOrdenadas[0];
+    elegirUnidad(primerKey, primerU.nombre, primerU.tipo);
+  }
 }
 
 iniciarDropdownUnidades();
@@ -1456,58 +1790,121 @@ if (Object.keys(UNIDADES).length > 0) {
     canvas.height = window.innerHeight;
   }
   resize();
+  window.addEventListener('resize', resize);
 
-  const grises = ['#b0b0ae','#989896','#c8c8c6','#a0a0a0','#d0d0ce','#888886'];
+  const particles = [];
 
-  const ripples = [];
+  // Paleta de unidades: unidad -> { color1, color2, bgColor1, bgColor2 }
+  const unidadPaleta = {
+    'ABECEDARIO': { color1: '#4A9FB5', color2: '#FAFAFA', bgColor1: '#B8E3F0', bgColor2: '#E8F5FB' },
+    'CASOS': { color1: '#E63946', color2: '#FAFAFA', bgColor1: '#F7B8BE', bgColor2: '#FCE4E6' },
+    'CULTURA': { color1: '#F0932F', color2: '#FAFAFA', bgColor1: '#F9D4B8', bgColor2: '#FEE4D0' },
+    'GEOGRAFÍA Y CLIMA': { color1: '#6FCF3D', color2: '#FAFAFA', bgColor1: '#C5EBA8', bgColor2: '#E5F5D8' },
+    'MODOS Y FRASES': { color1: '#8557D4', color2: '#FAFAFA', bgColor1: '#D4C4F0', bgColor2: '#E8DFF8' },
+    'NÚMEROS Y TIEMPO': { color1: '#17B8CE', color2: '#FAFAFA', bgColor1: '#A8E8F0', bgColor2: '#D9F3F8' },
+    'PERSONAS': { color1: '#CCB0E3', color2: '#FAFAFA', bgColor1: '#E9DFF1', bgColor2: '#F5EEF9' },
+    'VOCABULARIO': { color1: '#B8E3F0', color2: '#FAFAFA', bgColor1: '#E8F5FB', bgColor2: '#F5FAFE' }
+  };
 
-  function spawnRipple() {
-    ripples.push({
-      x:     Math.random() * canvas.width,
-      y:     Math.random() * canvas.height,
-      r:     0,
-      maxR:  35 + Math.random() * 55,
-      color: grises[Math.floor(Math.random() * grises.length)],
-      speed: 0.35 + Math.random() * 0.4
-    });
-    // Intervalo más corto para más ripples simultáneas bien distribuidas
-    setTimeout(spawnRipple, 150 + Math.random() * 400);
-  }
-
-  // Arranca con varios ripples ya en progreso para que no empiece vacío
-  for (let i = 0; i < 16; i++) {
-    const maxR = 35 + Math.random() * 55;
-    ripples.push({
-      x:     Math.random() * canvas.width,
-      y:     Math.random() * canvas.height,
-      r:     Math.random() * maxR,
-      maxR,
-      color: grises[Math.floor(Math.random() * grises.length)],
-      speed: 0.35 + Math.random() * 0.4
-    });
-  }
-  spawnRipple();
-
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    for (let i = ripples.length - 1; i >= 0; i--) {
-      const rp = ripples[i];
-      rp.r += rp.speed;
-      const progress = rp.r / rp.maxR;
-      const alpha    = (1 - progress) * 0.3;
-
-      if (alpha <= 0.005) { ripples.splice(i, 1); continue; }
-
-      ctx.beginPath();
-      ctx.arc(rp.x, rp.y, rp.r, 0, Math.PI * 2);
-      ctx.strokeStyle = rp.color;
-      ctx.lineWidth   = 1.8 * (1 - progress * 0.7);
-      ctx.globalAlpha = alpha;
-      ctx.stroke();
+  class Particle {
+    constructor(paleta) {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      
+      // 30% de las partículas son más grandes
+      const esGrande = Math.random() < 0.3;
+      this.radius = esGrande ? (4 + Math.random() * 6) : (2 + Math.random() * 4);
+      
+      this.opacity = 0;
+      
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 0.02 + Math.random() * 0.03;
+      this.vx = Math.cos(angle) * speed;
+      this.vy = Math.sin(angle) * speed;
+      
+      this.life = 0;
+      this.maxLife = 300 + Math.random() * 200;
+      this.color = Math.random() > 0.5 ? paleta.color1 : paleta.color2;
     }
 
+    update() {
+      this.life++;
+      const progress = this.life / this.maxLife;
+      
+      this.x += this.vx;
+      this.y += this.vy;
+      
+      if (progress < 0.15) {
+        this.opacity = progress / 0.15;
+      } else if (progress > 0.85) {
+        this.opacity = (1 - progress) / 0.15;
+      } else {
+        this.opacity = 1;
+      }
+    }
+
+    draw(ctx) {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fillStyle = this.color;
+      ctx.globalAlpha = this.opacity * 0.6;
+      ctx.fill();
+    }
+
+    isDead() {
+      return this.life > this.maxLife;
+    }
+  }
+
+  function spawnParticles(paleta) {
+    for (let i = 0; i < 1.5; i++) {
+      particles.push(new Particle(paleta));
+    }
+  }
+
+  let spawnInterval = null;
+  let currentPaleta = unidadPaleta['ABECEDARIO'];
+
+  function iniciarSpawn(paleta) {
+    currentPaleta = paleta;
+    if (spawnInterval) clearInterval(spawnInterval);
+    spawnInterval = setInterval(() => spawnParticles(currentPaleta), 500);
+    particles.length = 0;
+    for (let i = 0; i < 9; i++) {
+      particles.push(new Particle(currentPaleta));
+    }
+  }
+
+  // Arrancar con ABECEDARIO
+  iniciarSpawn(currentPaleta);
+
+  // Detectar cambio de unidad
+  window.addEventListener('cambioUnidad', (e) => {
+    const nuevaUnidad = e.detail.unidad;
+    if (unidadPaleta[nuevaUnidad]) {
+      iniciarSpawn(unidadPaleta[nuevaUnidad]);
+    }
+  });
+
+  function draw() {
+    // Pintar gradiente de fondo
+    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    gradient.addColorStop(0, currentPaleta.bgColor1);
+    gradient.addColorStop(1, currentPaleta.bgColor2);
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
     ctx.globalAlpha = 1;
+
+    for (let i = particles.length - 1; i >= 0; i--) {
+      particles[i].update();
+      particles[i].draw(ctx);
+      
+      if (particles[i].isDead()) {
+        particles.splice(i, 1);
+      }
+    }
+
     requestAnimationFrame(draw);
   }
 
