@@ -55,6 +55,21 @@ const PALETA_COLORES = [
 ===================================================================== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+html {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+}
+
 :root {
   /* Dimensiones fijas */
   --w: 1366px;
@@ -63,7 +78,7 @@ const PALETA_COLORES = [
   --mesa-top: 72px;
 
   /* Paleta neutra */
-  --bg-app:        #e9e9e7;
+  --bg-app:        #f0ebe5;
   --bg-header:     #e9e9e7;
   --border-header: #d4d4d2;
   --bg-mesa:       #d8d8d6;
@@ -97,7 +112,7 @@ html, body {
   width: var(--w);
   height: 100dvh;
   overflow: hidden;
-  background: var(--bg-app);
+  background: var(--bg-app) !important;
   font-family: var(--font);
   -webkit-tap-highlight-color: transparent;
   user-select: none;
@@ -111,8 +126,8 @@ header {
   top: 0; left: 0;
   width: var(--w);
   height: var(--header-h);
-  background: rgba(192, 192, 192, 0.45);
-  backdrop-filter: blur(8px);
+  background: transparent;
+  backdrop-filter: none;
   border-bottom: none;
   display: flex;
   align-items: center;
@@ -139,9 +154,9 @@ header {
   align-items: center;
   justify-content: center;
   padding: 0 20px;
-  font-size: var(--sel-font);
+  font-size: 16px;
   color: var(--sel-color);
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.5px;
   cursor: pointer;
   transition: background 0.15s;
@@ -150,7 +165,7 @@ header {
 }
 
 /* Ancho mínimo diferenciado — el 1 es el más largo */
-.sel-unidad   { min-width: 200px; font-size: 16px; font-weight: 600; }
+.sel-unidad   { min-width: 200px; }
 .sel-tema     { min-width: 120px; }
 .sel-subtema  { min-width: 100px; }
 
@@ -188,6 +203,22 @@ header {
 }
 
 .selector.verbos {
+  color: #3a3a38;
+}
+
+.selector.colores {
+  background:
+    linear-gradient(#ffffff, #ffffff) padding-box,
+    conic-gradient(
+      #FFC93C,      /* Amarillo */
+      #F0932F,      /* Naranja */
+      #E63946,      /* Rojo */
+      #8557D4,      /* Violeta */
+      #1E3A8A,      /* Azul */
+      #B8E3F0,      /* Celeste */
+      #6FCF3D,      /* Verde Claro */
+      #FFC93C       /* Amarillo nuevamente para cerrar el círculo */
+    ) border-box;
   color: #3a3a38;
 }
 
@@ -311,6 +342,7 @@ header {
   background: transparent;
   overflow: hidden;
   z-index: 1;
+  transition: background-color 0.3s ease;
 }
 
 /* Estado vacío */
@@ -344,6 +376,7 @@ header {
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   transition: box-shadow 0.2s, transform 0.1s;
   touch-action: none;
+  z-index: 20;
 }
 
 .tarjeta:hover {
@@ -434,6 +467,23 @@ header {
 .dropdown-item:last-child { border-bottom: none; }
 .dropdown-item:hover { background: #f5f5f3; }
 .dropdown-item.seleccionado { font-weight: 600; }
+
+/* =====================================================================
+   FONDOS DE BODY POR TEMA
+===================================================================== */
+
+body.tema-letras { background: #B8E3F0 !important; }
+body.tema-verbos { background: #F5F3F0 !important; }
+body.tema-caso1 { background: #5C1E1E !important; }
+body.tema-caso2 { background: #6B6B63 !important; }
+body.tema-caso3 { background: #4A1B6B !important; }
+body.tema-caso4 { background: #1B4D3E !important; }
+body.tema-caso5 { background: #B8860B !important; }
+body.tema-caso6 { background: #4A9FB5 !important; }
+body.tema-colores { background: #8B7B6F !important; }
+body.tema-numeros { background: #2A2A2A !important; }
+body.tema-hora { background: #C9A961 !important; }
+body.tema-dias_meses { background: #1E3A8A !important; }
 
 </style>
 </head>
@@ -532,7 +582,14 @@ const UNIDADES = {
   'CASOS': {
     nombre: 'CASOS',
     tipo: 'libre',
-    temas: null
+    temas: {
+      'caso1': { nombre: 'Caso 1' },
+      'caso2': { nombre: 'Caso 2' },
+      'caso3': { nombre: 'Caso 3' },
+      'caso4': { nombre: 'Caso 4' },
+      'caso5': { nombre: 'Caso 5' },
+      'caso6': { nombre: 'Caso 6' }
+    }
   },
   'CULTURA': {
     nombre: 'CULTURA',
@@ -552,7 +609,11 @@ const UNIDADES = {
   'NÚMEROS Y TIEMPO': {
     nombre: 'NÚMEROS Y TIEMPO',
     tipo: 'libre',
-    temas: null
+    temas: {
+      'numeros': { nombre: 'Números' },
+      'hora': { nombre: 'La Hora' },
+      'dias_meses': { nombre: 'Días y Meses' }
+    }
   },
   'PERSONAS': {
     nombre: 'PERSONAS',
@@ -581,8 +642,8 @@ const UNIDADES = {
       }
     }
   },
-  'VOCABULARIO': {
-    nombre: 'VOCABULARIO',
+  'COLORES': {
+    nombre: 'COLORES',
     tipo: 'libre',
     temas: null
   }
@@ -714,7 +775,191 @@ const CONTENIDO_TARJETAS = {
   'MODOS Y FRASES': [],
   'PERSONAS': [],
   'CASOS': [],
-  'VOCABULARIO': []
+  'COLORES': [
+    {
+      id: 'tarjeta-colores',
+      titulo: 'Colores Básicos',
+      tipo: 'colores',
+      render: function() {
+        const div = document.createElement('div');
+        div.className = 'tarjeta';
+        div.style.background = `linear-gradient(#ffffff, #ffffff) padding-box, conic-gradient(#FFC93C, #F0932F, #E63946, #8557D4, #1E3A8A, #B8E3F0, #6FCF3D, #FFC93C) border-box`;
+        div.style.border = `var(--card-border-w) solid transparent`;
+        div.style.borderRadius = `var(--card-radius)`;
+        
+        let html = `
+          <div class="tarjeta-titulo">Colores Básicos</div>
+          <div class="tarjeta-cuerpo" style="padding:0;">
+            <table style="width:100%; border-collapse:collapse; font-size:12px;">
+              <thead>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <th style="text-align:left; padding:8px; color:var(--text-secondary); font-weight:500; font-size:11px; text-transform:uppercase; letter-spacing:0.3px;">Color</th>
+                  <th style="text-align:left; padding:8px; color:var(--text-secondary); font-weight:500; font-size:11px; text-transform:uppercase; letter-spacing:0.3px;">Masc. Sing</th>
+                  <th style="text-align:left; padding:8px; color:var(--text-secondary); font-weight:500; font-size:11px; text-transform:uppercase; letter-spacing:0.3px;">Masc. Plur</th>
+                  <th style="text-align:left; padding:8px; color:var(--text-secondary); font-weight:500; font-size:11px; text-transform:uppercase; letter-spacing:0.3px;">Fem. Sing</th>
+                  <th style="text-align:left; padding:8px; color:var(--text-secondary); font-weight:500; font-size:11px; text-transform:uppercase; letter-spacing:0.3px;">Fem. Plur</th>
+                </tr>
+              </thead>
+              <tbody>
+        `;
+        
+        const colores = [
+          { color1: '#FFC93C', color2: '#FFE9A8', nombre: 'amarillo', plurm: 'amarillos', femm: 'amarilla', plurf: 'amarillas' },
+          { color1: '#F0932F', color2: '#F9D4B8', nombre: 'naranja', plurm: 'naranjas', femm: 'naranja', plurf: 'naranjas' },
+          { color1: '#E63946', color2: '#F7B8BE', nombre: 'rojo', plurm: 'rojos', femm: 'roja', plurf: 'rojas' },
+          { color1: '#E89CB8', color2: '#F5D9E8', nombre: 'rosa', plurm: 'rosas', femm: 'rosa', plurf: 'rosas' },
+          { color1: '#8557D4', color2: '#D4C4F0', nombre: 'violeta', plurm: 'violetas', femm: 'violeta', plurf: 'violetas' },
+          { color1: '#1E3A8A', color2: '#93C5FD', nombre: 'azul', plurm: 'azules', femm: 'azul', plurf: 'azules' },
+          { color1: '#B8E3F0', color2: '#E8F5FB', nombre: 'celeste', plurm: 'celestes', femm: 'celeste', plurf: 'celestes' },
+          { color1: '#6FCF3D', color2: '#C5EBA8', nombre: 'verde claro', plurm: 'verdes claros', femm: 'verde clara', plurf: 'verdes claras' },
+          { color1: '#1B4D3E', color2: '#7FB3A0', nombre: 'verde oscuro', plurm: 'verdes oscuros', femm: 'verde oscura', plurf: 'verdes oscuras' },
+          { color1: '#6B4423', color2: '#C89968', nombre: 'marrón', plurm: 'marrones', femm: 'marrón', plurf: 'marrones' },
+          { color1: '#6B6B63', color2: '#D0CFC5', nombre: 'gris', plurm: 'grises', femm: 'gris', plurf: 'grises' },
+          { color1: '#2A2A2A', color2: '#B8B8B8', nombre: 'negro', plurm: 'negros', femm: 'negra', plurf: 'negras' },
+          { color1: '#FAFAFA', color2: '#E8E8E8', nombre: 'blanco', plurm: 'blancos', femm: 'blanca', plurf: 'blancas' }
+        ];
+        
+        colores.forEach(c => {
+          html += `
+            <tr style="border-bottom:0.5px solid var(--border);">
+              <td style="padding:8px; text-align:center;"><div style="width:32px; height:32px; border-radius:4px; background:${c.color1}; border:3px solid ${c.color2};"></div></td>
+              <td style="padding:8px; color:var(--text-primary);">${c.nombre}</td>
+              <td style="padding:8px; color:var(--text-primary);">${c.plurm}</td>
+              <td style="padding:8px; color:var(--text-primary);">${c.femm}</td>
+              <td style="padding:8px; color:var(--text-primary);">${c.plurf}</td>
+            </tr>
+          `;
+        });
+        
+        html += `
+              </tbody>
+            </table>
+          </div>
+        `;
+        
+        div.innerHTML = html;
+        return div;
+      }
+    },
+    {
+      id: 'tarjeta-mas-colores',
+      titulo: 'Más Colores',
+      tipo: 'colores',
+      render: function() {
+        const div = document.createElement('div');
+        div.className = 'tarjeta';
+        div.style.background = `linear-gradient(#ffffff, #ffffff) padding-box, conic-gradient(#FFC93C, #F0932F, #E63946, #8557D4, #1E3A8A, #B8E3F0, #6FCF3D, #FFC93C) border-box`;
+        div.style.border = `var(--card-border-w) solid transparent`;
+        div.style.borderRadius = `var(--card-radius)`;
+        
+        let html = `
+          <div class="tarjeta-titulo">Más Colores</div>
+          <div class="tarjeta-cuerpo" style="padding:0;">
+            <table style="width:100%; border-collapse:collapse; font-size:12px;">
+              <thead>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <th style="text-align:left; padding:8px; color:var(--text-secondary); font-weight:500; font-size:11px; text-transform:uppercase; letter-spacing:0.3px;">Color</th>
+                  <th style="text-align:left; padding:8px; color:var(--text-secondary); font-weight:500; font-size:11px; text-transform:uppercase; letter-spacing:0.3px;">Masc. Sing</th>
+                  <th style="text-align:left; padding:8px; color:var(--text-secondary); font-weight:500; font-size:11px; text-transform:uppercase; letter-spacing:0.3px;">Masc. Plur</th>
+                  <th style="text-align:left; padding:8px; color:var(--text-secondary); font-weight:500; font-size:11px; text-transform:uppercase; letter-spacing:0.3px;">Fem. Sing</th>
+                  <th style="text-align:left; padding:8px; color:var(--text-secondary); font-weight:500; font-size:11px; text-transform:uppercase; letter-spacing:0.3px;">Fem. Plur</th>
+                </tr>
+              </thead>
+              <tbody>
+        `;
+        
+        const colores = [
+          { color1: '#B8860B', color2: '#F0E68C', nombre: 'dorado', plurm: 'dorados', femm: 'dorada', plurf: 'doradas' },
+          { color1: '#C9A961', color2: '#E8D5B7', nombre: 'arena', plurm: 'arenas', femm: 'arena', plurf: 'arenas' },
+          { color1: '#5C1E1E', color2: '#DC8E8E', nombre: 'bordeaux', plurm: 'bordeaux', femm: 'bordeaux', plurf: 'bordeaux' },
+          { color1: '#FF4D9F', color2: '#FFB8D9', nombre: 'fuxia', plurm: 'fuxias', femm: 'fuxia', plurf: 'fuxias' },
+          { color1: '#CCB0E3', color2: '#E9DFF1', nombre: 'lavanda', plurm: 'lavandas', femm: 'lavanda', plurf: 'lavandas' },
+          { color1: '#17B8CE', color2: '#A8E8F0', nombre: 'turquesa', plurm: 'turquesas', femm: 'turquesa', plurf: 'turquesas' },
+          { color1: '#4A9FB5', color2: '#B5D9E8', nombre: 'aqua', plurm: 'aquas', femm: 'aqua', plurf: 'aquas' },
+          { color1: '#556B2F', color2: '#9ACD32', nombre: 'musgo', plurm: 'musgos', femm: 'musgo', plurf: 'musgos' },
+          { color1: '#9ADEC9', color2: '#E0F5ED', nombre: 'menta', plurm: 'mentas', femm: 'menta', plurf: 'mentas' },
+          { color1: '#8B7B6F', color2: '#D9CFC4', nombre: 'piedra', plurm: 'piedras', femm: 'piedra', plurf: 'piedras' }
+        ];
+        
+        colores.forEach(c => {
+          html += `
+            <tr style="border-bottom:0.5px solid var(--border);">
+              <td style="padding:8px; text-align:center;"><div style="width:32px; height:32px; border-radius:4px; background:${c.color1}; border:3px solid ${c.color2};"></div></td>
+              <td style="padding:8px; color:var(--text-primary);">${c.nombre}</td>
+              <td style="padding:8px; color:var(--text-primary);">${c.plurm}</td>
+              <td style="padding:8px; color:var(--text-primary);">${c.femm}</td>
+              <td style="padding:8px; color:var(--text-primary);">${c.plurf}</td>
+            </tr>
+          `;
+        });
+        
+        html += `
+              </tbody>
+            </table>
+          </div>
+        `;
+        
+        div.innerHTML = html;
+        return div;
+      }
+    },
+    {
+      id: 'tarjeta-matices',
+      titulo: 'Matices',
+      tipo: 'colores',
+      render: function() {
+        const div = document.createElement('div');
+        div.className = 'tarjeta';
+        div.style.background = `linear-gradient(#ffffff, #ffffff) padding-box, conic-gradient(#FFC93C, #F0932F, #E63946, #8557D4, #1E3A8A, #B8E3F0, #6FCF3D, #FFC93C) border-box`;
+        div.style.border = `var(--card-border-w) solid transparent`;
+        div.style.borderRadius = `var(--card-radius)`;
+        
+        let html = `
+          <div class="tarjeta-titulo">Matices</div>
+          <div class="tarjeta-cuerpo" style="padding:0;">
+            <table style="width:100%; border-collapse:collapse; font-size:12px;">
+              <thead>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <th style="text-align:left; padding:8px; color:var(--text-secondary); font-weight:500; font-size:11px; text-transform:uppercase; letter-spacing:0.3px;">Característica</th>
+                  <th style="text-align:left; padding:8px; color:var(--text-secondary); font-weight:500; font-size:11px; text-transform:uppercase; letter-spacing:0.3px;">Español</th>
+                </tr>
+              </thead>
+              <tbody>
+        `;
+        
+        const matices = [
+          { caracteristica: 'Claro', español: 'claro' },
+          { caracteristica: 'Oscuro', español: 'oscuro' },
+          { caracteristica: 'Metálico', español: 'metálico' },
+          { caracteristica: 'Transparente', español: 'transparente' },
+          { caracteristica: 'Pastel', español: 'pastel' },
+          { caracteristica: 'Neón', español: 'neón' },
+          { caracteristica: 'Mate', español: 'mate' },
+          { caracteristica: 'Brillante', español: 'brillante' },
+          { caracteristica: 'Pálido', español: 'pálido' },
+          { caracteristica: 'Saturado', español: 'saturado' }
+        ];
+        
+        matices.forEach(m => {
+          html += `
+            <tr style="border-bottom:0.5px solid var(--border);">
+              <td style="padding:8px; color:var(--text-primary);">${m.caracteristica}</td>
+              <td style="padding:8px; color:var(--text-primary);">${m.español}</td>
+            </tr>
+          `;
+        });
+        
+        html += `
+              </tbody>
+            </table>
+          </div>
+        `;
+        
+        div.innerHTML = html;
+        return div;
+      }
+    }
+  ]
 };
 
 // ── Leer palabras y letras con Web Speech API ───────────────────────────
@@ -824,22 +1069,32 @@ function elegirUnidad(key, nombre, tipo) {
   estado.subtema  = null;
   estado.tipoMesa = tipo;
 
+  // Resetear clase del body a blanco por defecto
+  document.body.className = '';
+
   // Si es unidad VERBOS, agregar clase verbos a los selectores
   const selUnidad = document.getElementById('selUnidad');
   const selTema = document.getElementById('selTema');
   const selSubtema = document.getElementById('selSubtema');
   
   // Remover todas las clases especiales primero
-  selUnidad.classList.remove('verbos', 'abecedario');
-  selTema.classList.remove('verbos', 'abecedario');
-  selSubtema.classList.remove('verbos', 'abecedario');
+  selUnidad.classList.remove('verbos', 'abecedario', 'colores');
+  selTema.classList.remove('verbos', 'abecedario', 'colores');
+  selSubtema.classList.remove('verbos', 'abecedario', 'colores');
   
   if (key === 'VERBOS') {
     selUnidad.classList.add('verbos');
     selTema.classList.add('verbos');
     selSubtema.classList.add('verbos');
+    document.body.classList.add('tema-verbos');
   } else if (key === 'ABECEDARIO') {
     selUnidad.classList.add('abecedario');
+    document.body.classList.add('tema-letras');
+  } else if (key === 'COLORES') {
+    selUnidad.classList.add('colores');
+    document.body.classList.add('tema-colores');
+  } else if (key === 'NÚMEROS Y TIEMPO') {
+    document.body.classList.add('tema-numeros');
   }
 
   // Si es unidad VERBOS (fija), apagar editor
@@ -868,6 +1123,9 @@ function elegirUnidad(key, nombre, tipo) {
     if (primerTemaKey) {
       elegirTema(primerTemaKey, u.temas[primerTemaKey].nombre);
     }
+  } else {
+    // Sin temas, aplicar color de unidad directamente
+    aplicarColorFondo();
   }
 
   document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('visible'));
@@ -883,6 +1141,16 @@ function elegirUnidad(key, nombre, tipo) {
 function elegirTema(key, nombre) {
   estado.tema    = key;
   estado.subtema = null;
+
+  // Cambiar clase del body para actualizar fondo
+  document.body.className = '';
+  if (estado.unidad === 'CASOS') {
+    document.body.classList.add(`tema-${key}`);
+  } else if (estado.unidad === 'ABECEDARIO') {
+    document.body.classList.add('tema-letras');
+  } else if (estado.unidad === 'NÚMEROS Y TIEMPO') {
+    document.body.classList.add(`tema-${key}`);
+  }
 
   // Agregar clase verbos a selTema si es unidad VERBOS
   const selTema = document.getElementById('selTema');
@@ -927,6 +1195,10 @@ function elegirTema(key, nombre) {
   document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('visible'));
   actualizarSelectores();
   renderMesa();
+  aplicarColorFondo();
+  
+  // Disparar evento para cambiar partículas según tema
+  window.dispatchEvent(new CustomEvent('cambioTema', { detail: { unidad: estado.unidad, tema: key } }));
 }
 
 // ── Elegir sub-tema ───────────────────────────────────────────────────
@@ -1089,6 +1361,20 @@ function renderMesa() {
   } else {
     renderMesaLibre(mesa);
   }
+}
+
+// Aplicar color de fondo a la mesa según jerarquía: tema > unidad
+function aplicarColorFondo() {
+  const mesa = document.getElementById('mesa');
+  
+  // La mesa SIEMPRE transparente
+  // El color está en el body (body.tema-XXX)
+  mesa.style.background = 'transparent';
+}
+
+// Aplicar color de fondo a la mesa según el caso seleccionado
+function aplicarColorFondoCaso() {
+  aplicarColorFondo();
 }
 
 // ── CONJUGACIONES DE VERBOS (ESPAÑOL) ──────────────────────────────────
@@ -1767,6 +2053,133 @@ if (estadoGuardado) {
   }
 }
 
+// ── SISTEMA DE PARTÍCULAS ──────────────────────────────────────────────────────
+class ParticleSystem {
+  constructor(containerId, colors = null) {
+    this.container = document.getElementById(containerId);
+    this.particles = [];
+    this.active = false;
+    this.colors = colors; // Array de colores personalizado
+    this.init();
+  }
+  
+  init() {
+    // Crear 15 partículas total
+    if (this.colors) {
+      // Colores personalizados (VERBOS)
+      for (let i = 0; i < 15; i++) {
+        const color = this.colors[i % this.colors.length];
+        this.createParticle(color);
+      }
+    } else {
+      // Colores por defecto (ABECEDARIO: celeste + blancas)
+      for (let i = 0; i < 10; i++) {
+        const color = i % 2 === 0 ? '#B8E3F0' : '#E8F5FB';
+        this.createParticle(color);
+      }
+      for (let i = 0; i < 5; i++) {
+        this.createParticle('#FAFAFA');
+      }
+    }
+    
+    // Agregar estilos de animación si no existen
+    if (!document.querySelector('style[data-particles-style]')) {
+      const style = document.createElement('style');
+      style.setAttribute('data-particles-style', 'true');
+      style.textContent = `
+        @keyframes particleFadeInOut {
+          0% { opacity: 0; }
+          10% { opacity: 1; }
+          90% { opacity: 1; }
+          100% { opacity: 0; }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+  }
+  
+  createParticle(color) {
+    const particle = {
+      element: document.createElement('div'),
+      color: color
+    };
+    
+    particle.element.style.cssText = `
+      position: fixed;
+      pointer-events: none;
+      border-radius: 50%;
+      box-shadow: 0 0 8px ${color};
+      z-index: 0;
+    `;
+    
+    this.particles.push(particle);
+    this.resetParticle(particle);
+  }
+  
+  resetParticle(particle) {
+    if (!this.active && particle.element.parentElement) return; // Solo retornar si está inactivo Y ya está en el DOM
+    
+    const x = Math.random() * (window.innerWidth - 30);
+    const y = Math.random() * (window.innerHeight - 30);
+    const size = Math.random() * 14 + 7; // Reducido 30%: era (20 + 10) ahora (14 + 7)
+    const duration = Math.random() * 5000 + 10000; // 10-15 segundos
+    const delay = Math.random() * 3000; // Delays variados
+    
+    particle.element.style.left = x + 'px';
+    particle.element.style.top = y + 'px';
+    particle.element.style.width = size + 'px';
+    particle.element.style.height = size + 'px';
+    particle.element.style.backgroundColor = particle.color;
+    particle.element.style.opacity = '0';
+    particle.element.style.animation = 'none'; // Reset animation
+    
+    // Trigger reflow para que la animación se reinicie
+    void particle.element.offsetWidth;
+    
+    particle.element.style.animation = `particleFadeInOut ${duration}ms ease-in-out ${delay}ms forwards`;
+    
+    setTimeout(() => this.resetParticle(particle), delay + duration + 50);
+  }
+  
+  start() {
+    if (this.active) return;
+    this.active = true;
+    this.particles.forEach(p => {
+      if (!p.element.parentElement) {
+        document.body.appendChild(p.element);
+      }
+    });
+  }
+  
+  stop() {
+    if (!this.active) return;
+    this.active = false;
+    this.particles.forEach(p => {
+      if (p.element.parentElement) {
+        p.element.parentElement.removeChild(p.element);
+      }
+    });
+  }
+}
+
+// Instanciar sistemas de partículas para cada unidad
+const particleSystemABECEDARIO = new ParticleSystem('mesa'); // Celeste + blancas por defecto
+const particleSystemVERBOS = new ParticleSystem('mesa', ['#FFC93C', '#F0932F', '#E63946', '#FF4D9F', '#8557D4', '#17B8CE', '#6FCF3D']); // 7 colores
+
+// Escuchar cambios de unidad y controlar partículas
+window.addEventListener('cambioUnidad', (e) => {
+  if (e.detail.unidad === 'ABECEDARIO') {
+    particleSystemABECEDARIO.start();
+    particleSystemVERBOS.stop();
+  } else if (e.detail.unidad === 'VERBOS') {
+    particleSystemVERBOS.start();
+    particleSystemABECEDARIO.stop();
+  } else {
+    particleSystemABECEDARIO.stop();
+    particleSystemVERBOS.stop();
+  }
+});
+
 // Cargar la primera unidad automáticamente
 if (Object.keys(UNIDADES).length > 0) {
   const primeraKey = Object.keys(UNIDADES)[0];
@@ -1776,140 +2189,6 @@ if (Object.keys(UNIDADES).length > 0) {
   }
 }
 
-</script>
-<!-- FONDO DE PARTÍCULAS RIPPLE -->
-<canvas id="canvasRipple" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
-
-<script>
-(function() {
-  const canvas = document.getElementById('canvasRipple');
-  const ctx = canvas.getContext('2d');
-
-  function resize() {
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  const particles = [];
-
-  // Paleta de unidades: unidad -> { color1, color2, bgColor1, bgColor2 }
-  const unidadPaleta = {
-    'ABECEDARIO': { color1: '#4A9FB5', color2: '#FAFAFA', bgColor1: '#B8E3F0', bgColor2: '#E8F5FB' },
-    'CASOS': { color1: '#E63946', color2: '#FAFAFA', bgColor1: '#F7B8BE', bgColor2: '#FCE4E6' },
-    'CULTURA': { color1: '#F0932F', color2: '#FAFAFA', bgColor1: '#F9D4B8', bgColor2: '#FEE4D0' },
-    'GEOGRAFÍA Y CLIMA': { color1: '#6FCF3D', color2: '#FAFAFA', bgColor1: '#C5EBA8', bgColor2: '#E5F5D8' },
-    'MODOS Y FRASES': { color1: '#8557D4', color2: '#FAFAFA', bgColor1: '#D4C4F0', bgColor2: '#E8DFF8' },
-    'NÚMEROS Y TIEMPO': { color1: '#17B8CE', color2: '#FAFAFA', bgColor1: '#A8E8F0', bgColor2: '#D9F3F8' },
-    'PERSONAS': { color1: '#CCB0E3', color2: '#FAFAFA', bgColor1: '#E9DFF1', bgColor2: '#F5EEF9' },
-    'VOCABULARIO': { color1: '#B8E3F0', color2: '#FAFAFA', bgColor1: '#E8F5FB', bgColor2: '#F5FAFE' }
-  };
-
-  class Particle {
-    constructor(paleta) {
-      this.x = Math.random() * canvas.width;
-      this.y = Math.random() * canvas.height;
-      
-      // 30% de las partículas son más grandes
-      const esGrande = Math.random() < 0.3;
-      this.radius = esGrande ? (4 + Math.random() * 6) : (2 + Math.random() * 4);
-      
-      this.opacity = 0;
-      
-      const angle = Math.random() * Math.PI * 2;
-      const speed = 0.02 + Math.random() * 0.03;
-      this.vx = Math.cos(angle) * speed;
-      this.vy = Math.sin(angle) * speed;
-      
-      this.life = 0;
-      this.maxLife = 300 + Math.random() * 200;
-      this.color = Math.random() > 0.5 ? paleta.color1 : paleta.color2;
-    }
-
-    update() {
-      this.life++;
-      const progress = this.life / this.maxLife;
-      
-      this.x += this.vx;
-      this.y += this.vy;
-      
-      if (progress < 0.15) {
-        this.opacity = progress / 0.15;
-      } else if (progress > 0.85) {
-        this.opacity = (1 - progress) / 0.15;
-      } else {
-        this.opacity = 1;
-      }
-    }
-
-    draw(ctx) {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.fillStyle = this.color;
-      ctx.globalAlpha = this.opacity * 0.6;
-      ctx.fill();
-    }
-
-    isDead() {
-      return this.life > this.maxLife;
-    }
-  }
-
-  function spawnParticles(paleta) {
-    for (let i = 0; i < 1.5; i++) {
-      particles.push(new Particle(paleta));
-    }
-  }
-
-  let spawnInterval = null;
-  let currentPaleta = unidadPaleta['ABECEDARIO'];
-
-  function iniciarSpawn(paleta) {
-    currentPaleta = paleta;
-    if (spawnInterval) clearInterval(spawnInterval);
-    spawnInterval = setInterval(() => spawnParticles(currentPaleta), 500);
-    particles.length = 0;
-    for (let i = 0; i < 9; i++) {
-      particles.push(new Particle(currentPaleta));
-    }
-  }
-
-  // Arrancar con ABECEDARIO
-  iniciarSpawn(currentPaleta);
-
-  // Detectar cambio de unidad
-  window.addEventListener('cambioUnidad', (e) => {
-    const nuevaUnidad = e.detail.unidad;
-    if (unidadPaleta[nuevaUnidad]) {
-      iniciarSpawn(unidadPaleta[nuevaUnidad]);
-    }
-  });
-
-  function draw() {
-    // Pintar gradiente de fondo
-    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-    gradient.addColorStop(0, currentPaleta.bgColor1);
-    gradient.addColorStop(1, currentPaleta.bgColor2);
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    ctx.globalAlpha = 1;
-
-    for (let i = particles.length - 1; i >= 0; i--) {
-      particles[i].update();
-      particles[i].draw(ctx);
-      
-      if (particles[i].isDead()) {
-        particles.splice(i, 1);
-      }
-    }
-
-    requestAnimationFrame(draw);
-  }
-
-  requestAnimationFrame(draw);
-})();
 </script>
 
 </body>
