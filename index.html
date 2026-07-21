@@ -511,6 +511,11 @@ body.tema-colores { background: #F5F1E8 !important; }
 body.tema-numeros { background: #E8E8E8 !important; }
 body.tema-hora { background: #C9A961 !important; }
 body.tema-dias_meses { background: #1E3A8A !important; }
+body.tema-imperativo { background: #fdf3c8 !important; }
+body.tema-subjuntivo { background: #f3e9f7 !important; }
+body.tema-preguntas { background: #e2f5f1 !important; }
+body.tema-frases { background: #f2e8d3 !important; }
+body.tema-negacion { background: #efe1dd !important; }
 
 </style>
 </head>
@@ -645,7 +650,19 @@ const UNIDADES = {
   'MODOS Y FRASES': {
     nombre: 'MODOS Y FRASES',
     tipo: 'libre',
-    temas: null
+    temas: {
+      'imperativo': { nombre: 'Imperativo' },
+      'subjuntivo': { nombre: 'Subjuntivo' },
+      'preguntas': { nombre: 'Preguntas' },
+      'frases': { 
+        nombre: 'Frases',
+        subtemas: {
+          'particulas': { nombre: 'Partículas' },
+          'conversacion': { nombre: 'Conversación' }
+        }
+      },
+      'negacion': { nombre: 'Negación' }
+    }
   },
   'NÚMEROS Y TIEMPO': {
     nombre: 'NÚMEROS Y TIEMPO',
@@ -945,150 +962,24 @@ const CONTENIDO_TARJETAS = {
   },
   'GEOGRAFÍA Y CLIMA': {
     'terreno': [
-      {
-        id: 'tarjeta-terreno-picos',
-        titulo: 'Picos',
-        tipo: 'tres-columnas',
-        render: function() {
-          const div = document.createElement('div');
-          div.className = 'tarjeta';
-          div.style.background = `linear-gradient(#ffffff, #ffffff) padding-box, linear-gradient(135deg, #C5D5C0, #E8F0E8) border-box`;
-          div.style.border = `var(--card-border-w) solid transparent`;
-          div.style.borderRadius = `var(--card-radius)`;
-          
-          let html = `<div class="tarjeta-titulo">Picos</div><div class="tarjeta-cuerpo" style="padding:0;">`;
-          html += `<div style="display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:1px solid #ddd;">
-            <div style="padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;">IDIOMA</div>
-            <div style="padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;">ESPAÑOL</div>
-            <div style="padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;">DATO</div>
-          </div>`;
-          
-          const items = [];
-          items.forEach((item, idx) => {
-            html += `<div style="display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:0.5px solid #eee;">
-              <div style="padding:8px 12px; color:#333;" class="hablar">${item.idioma || ''}</div>
-              <div style="padding:8px 12px; color:#666; font-size:14px;">${item.spanish || ''}</div>
-              <div style="padding:8px 12px; color:#555; font-size:13px;">${item.dato || ''}</div>
-            </div>`;
-          });
-          
-          if (items.length === 0) {
-            html += `<div style="padding:20px; text-align:center; color:#999; font-size:14px;">Tarjeta vacía - Se completará con contenido del idioma</div>`;
-          }
-          
-          html += `</div>`;
-          div.innerHTML = html;
-          return div;
-        }
-      },
-      {
-        id: 'tarjeta-terreno-valles',
-        titulo: 'Valles',
-        tipo: 'tres-columnas',
-        render: function() {
-          const div = document.createElement('div');
-          div.className = 'tarjeta';
-          div.style.background = `linear-gradient(#ffffff, #ffffff) padding-box, linear-gradient(135deg, #C5D5C0, #E8F0E8) border-box`;
-          div.style.border = `var(--card-border-w) solid transparent`;
-          div.style.borderRadius = `var(--card-radius)`;
-          
-          let html = `<div class="tarjeta-titulo">Valles</div><div class="tarjeta-cuerpo" style="padding:0;">`;
-          html += `<div style="display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:1px solid #ddd;">
-            <div style="padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;">IDIOMA</div>
-            <div style="padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;">ESPAÑOL</div>
-            <div style="padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;">DATO</div>
-          </div>`;
-          
-          const items = [];
-          items.forEach((item, idx) => {
-            html += `<div style="display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:0.5px solid #eee;">
-              <div style="padding:8px 12px; color:#333;" class="hablar">${item.idioma || ''}</div>
-              <div style="padding:8px 12px; color:#666; font-size:14px;">${item.spanish || ''}</div>
-              <div style="padding:8px 12px; color:#555; font-size:13px;">${item.dato || ''}</div>
-            </div>`;
-          });
-          
-          if (items.length === 0) {
-            html += `<div style="padding:20px; text-align:center; color:#999; font-size:14px;">Tarjeta vacía - Se completará con contenido del idioma</div>`;
-          }
-          
-          html += `</div>`;
-          div.innerHTML = html;
-          return div;
-        }
-      },
-      {
-        id: 'tarjeta-terreno-glaciares',
-        titulo: 'Glaciares',
-        tipo: 'tres-columnas',
-        render: function() {
-          const div = document.createElement('div');
-          div.className = 'tarjeta';
-          div.style.background = `linear-gradient(#ffffff, #ffffff) padding-box, linear-gradient(135deg, #C5D5C0, #E8F0E8) border-box`;
-          div.style.border = `var(--card-border-w) solid transparent`;
-          div.style.borderRadius = `var(--card-radius)`;
-          
-          let html = `<div class="tarjeta-titulo">Glaciares</div><div class="tarjeta-cuerpo" style="padding:0;">`;
-          html += `<div style="display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:1px solid #ddd;">
-            <div style="padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;">IDIOMA</div>
-            <div style="padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;">ESPAÑOL</div>
-            <div style="padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;">DATO</div>
-          </div>`;
-          
-          const items = [];
-          items.forEach((item, idx) => {
-            html += `<div style="display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:0.5px solid #eee;">
-              <div style="padding:8px 12px; color:#333;" class="hablar">${item.idioma || ''}</div>
-              <div style="padding:8px 12px; color:#666; font-size:14px;">${item.spanish || ''}</div>
-              <div style="padding:8px 12px; color:#555; font-size:13px;">${item.dato || ''}</div>
-            </div>`;
-          });
-          
-          if (items.length === 0) {
-            html += `<div style="padding:20px; text-align:center; color:#999; font-size:14px;">Tarjeta vacía - Se completará con contenido del idioma</div>`;
-          }
-          
-          html += `</div>`;
-          div.innerHTML = html;
-          return div;
-        }
-      },
-      {
-        id: 'tarjeta-terreno-zonas',
-        titulo: 'Zonas',
-        tipo: 'tres-columnas',
-        render: function() {
-          const div = document.createElement('div');
-          div.className = 'tarjeta';
-          div.style.background = `linear-gradient(#ffffff, #ffffff) padding-box, linear-gradient(135deg, #C5D5C0, #E8F0E8) border-box`;
-          div.style.border = `var(--card-border-w) solid transparent`;
-          div.style.borderRadius = `var(--card-radius)`;
-          
-          let html = `<div class="tarjeta-titulo">Zonas</div><div class="tarjeta-cuerpo" style="padding:0;">`;
-          html += `<div style="display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:1px solid #ddd;">
-            <div style="padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;">IDIOMA</div>
-            <div style="padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;">ESPAÑOL</div>
-            <div style="padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;">DATO</div>
-          </div>`;
-          
-          const items = [];
-          items.forEach((item, idx) => {
-            html += `<div style="display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:0.5px solid #eee;">
-              <div style="padding:8px 12px; color:#333;" class="hablar">${item.idioma || ''}</div>
-              <div style="padding:8px 12px; color:#666; font-size:14px;">${item.spanish || ''}</div>
-              <div style="padding:8px 12px; color:#555; font-size:13px;">${item.dato || ''}</div>
-            </div>`;
-          });
-          
-          if (items.length === 0) {
-            html += `<div style="padding:20px; text-align:center; color:#999; font-size:14px;">Tarjeta vacía - Se completará con contenido del idioma</div>`;
-          }
-          
-          html += `</div>`;
-          div.innerHTML = html;
-          return div;
-        }
-      }
+      { id: 'tarjeta-terreno-picos', titulo: 'Picos', tipo: 'tres-columnas', render: function() { const div = document.createElement('div'); div.className = 'tarjeta'; div.style.background = `linear-gradient(#ffffff, #ffffff) padding-box, linear-gradient(135deg, #C5D5C0, #E8F0E8) border-box`; div.style.border = `var(--card-border-w) solid transparent`; div.style.borderRadius = `var(--card-radius)`; let html = `<div class="tarjeta-titulo">Picos</div><div class="tarjeta-cuerpo" style="padding:0;"><div style="display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:1px solid #ddd;"><div style="padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;">IDIOMA</div><div style="padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;">ESPAÑOL</div><div style="padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;">DATO</div></div>`; const items = []; items.forEach((item, idx) => { html += `<div style="display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:0.5px solid #eee;"><div style="padding:8px 12px; color:#333;" class="hablar">${item.idioma || ''}</div><div style="padding:8px 12px; color:#666; font-size:14px;">${item.spanish || ''}</div><div style="padding:8px 12px; color:#555; font-size:13px;">${item.dato || ''}</div></div>`; }); if (items.length === 0) { html += `<div style="padding:20px; text-align:center; color:#999; font-size:14px;">Tarjeta vacía</div>`; } html += `</div>`; div.innerHTML = html; return div; } },
+      { id: 'tarjeta-terreno-valles', titulo: 'Valles', tipo: 'tres-columnas', render: function() { const div = document.createElement('div'); div.className = 'tarjeta'; div.style.background = `linear-gradient(#ffffff, #ffffff) padding-box, linear-gradient(135deg, #C5D5C0, #E8F0E8) border-box`; div.style.border = `var(--card-border-w) solid transparent`; div.style.borderRadius = `var(--card-radius)`; let html = `<div class="tarjeta-titulo">Valles</div><div class="tarjeta-cuerpo" style="padding:0;"><div style="display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:1px solid #ddd;"><div style="padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;">IDIOMA</div><div style="padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;">ESPAÑOL</div><div style="padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;">DATO</div></div>`; const items = []; items.forEach((item, idx) => { html += `<div style="display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:0.5px solid #eee;"><div style="padding:8px 12px; color:#333;" class="hablar">${item.idioma || ''}</div><div style="padding:8px 12px; color:#666; font-size:14px;">${item.spanish || ''}</div><div style="padding:8px 12px; color:#555; font-size:13px;">${item.dato || ''}</div></div>`; }); if (items.length === 0) { html += `<div style="padding:20px; text-align:center; color:#999; font-size:14px;">Tarjeta vacía</div>`; } html += `</div>`; div.innerHTML = html; return div; } },
+      { id: 'tarjeta-terreno-glaciares', titulo: 'Glaciares', tipo: 'tres-columnas', render: function() { const div = document.createElement('div'); div.className = 'tarjeta'; div.style.background = `linear-gradient(#ffffff, #ffffff) padding-box, linear-gradient(135deg, #C5D5C0, #E8F0E8) border-box`; div.style.border = `var(--card-border-w) solid transparent`; div.style.borderRadius = `var(--card-radius)`; let html = `<div class="tarjeta-titulo">Glaciares</div><div class="tarjeta-cuerpo" style="padding:0;"><div style="display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:1px solid #ddd;"><div style="padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;">IDIOMA</div><div style="padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;">ESPAÑOL</div><div style="padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;">DATO</div></div>`; const items = []; items.forEach((item, idx) => { html += `<div style="display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:0.5px solid #eee;"><div style="padding:8px 12px; color:#333;" class="hablar">${item.idioma || ''}</div><div style="padding:8px 12px; color:#666; font-size:14px;">${item.spanish || ''}</div><div style="padding:8px 12px; color:#555; font-size:13px;">${item.dato || ''}</div></div>`; }); if (items.length === 0) { html += `<div style="padding:20px; text-align:center; color:#999; font-size:14px;">Tarjeta vacía</div>`; } html += `</div>`; div.innerHTML = html; return div; } },
+      { id: 'tarjeta-terreno-zonas', titulo: 'Zonas', tipo: 'tres-columnas', render: function() { const div = document.createElement('div'); div.className = 'tarjeta'; div.style.background = `linear-gradient(#ffffff, #ffffff) padding-box, linear-gradient(135deg, #C5D5C0, #E8F0E8) border-box`; div.style.border = `var(--card-border-w) solid transparent`; div.style.borderRadius = `var(--card-radius)`; let html = `<div class="tarjeta-titulo">Zonas</div><div class="tarjeta-cuerpo" style="padding:0;"><div style="display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:1px solid #ddd;"><div style="padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;">IDIOMA</div><div style="padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;">ESPAÑOL</div><div style="padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;">DATO</div></div>`; const items = []; items.forEach((item, idx) => { html += `<div style="display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:0.5px solid #eee;"><div style="padding:8px 12px; color:#333;" class="hablar">${item.idioma || ''}</div><div style="padding:8px 12px; color:#666; font-size:14px;">${item.spanish || ''}</div><div style="padding:8px 12px; color:#555; font-size:13px;">${item.dato || ''}</div></div>`; }); if (items.length === 0) { html += `<div style="padding:20px; text-align:center; color:#999; font-size:14px;">Tarjeta vacía</div>`; } html += `</div>`; div.innerHTML = html; return div; } }
+    ],
+    'flora_fauna': [
+      { id: 'tarjeta-flora-tipica', titulo: 'Flora Típica', tipo: 'tres-columnas', render: function() { const div = document.createElement('div'); div.className = 'tarjeta'; div.style.background = `linear-gradient(#ffffff, #ffffff) padding-box, linear-gradient(135deg, #C5D5C0, #E8F0E8) border-box`; div.style.border = `var(--card-border-w) solid transparent`; div.style.borderRadius = `var(--card-radius)`; let html = `<div class="tarjeta-titulo">Flora Típica</div><div class="tarjeta-cuerpo" style="padding:0;"><div style="display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:1px solid #ddd;"><div style="padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;">IDIOMA</div><div style="padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;">ESPAÑOL</div><div style="padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;">DATO</div></div>`; const items = []; items.forEach((item, idx) => { html += `<div style="display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:0.5px solid #eee;"><div style="padding:8px 12px; color:#333;" class="hablar">${item.idioma || ''}</div><div style="padding:8px 12px; color:#666; font-size:14px;">${item.spanish || ''}</div><div style="padding:8px 12px; color:#555; font-size:13px;">${item.dato || ''}</div></div>`; }); if (items.length === 0) { html += `<div style="padding:20px; text-align:center; color:#999; font-size:14px;">Tarjeta vacía</div>`; } html += `</div>`; div.innerHTML = html; return div; } }
+    ],
+    'clima_estaciones': [
+      { id: 'tarjeta-clima-elclima', titulo: 'El Clima', tipo: 'tres-columnas', render: function() { const div = document.createElement('div'); div.className = 'tarjeta'; div.style.background = `linear-gradient(#ffffff, #ffffff) padding-box, linear-gradient(135deg, #C5D5C0, #E8F0E8) border-box`; div.style.border = `var(--card-border-w) solid transparent`; div.style.borderRadius = `var(--card-radius)`; let html = `<div class="tarjeta-titulo">El Clima</div><div class="tarjeta-cuerpo" style="padding:0;"><div style="display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:1px solid #ddd;"><div style="padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;">IDIOMA</div><div style="padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;">ESPAÑOL</div><div style="padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;">DATO</div></div>`; const items = []; items.forEach((item, idx) => { html += `<div style="display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:0.5px solid #eee;"><div style="padding:8px 12px; color:#333;" class="hablar">${item.idioma || ''}</div><div style="padding:8px 12px; color:#666; font-size:14px;">${item.spanish || ''}</div><div style="padding:8px 12px; color:#555; font-size:13px;">${item.dato || ''}</div></div>`; }); if (items.length === 0) { html += `<div style="padding:20px; text-align:center; color:#999; font-size:14px;">Tarjeta vacía</div>`; } html += `</div>`; div.innerHTML = html; return div; } }
+    ]
+  },
+  'actividades': {
+    'invierno': [
+      { id: 'tarjeta-actividades-invierno', titulo: 'Invierno', tipo: 'tres-columnas', render: function() { const div = document.createElement('div'); div.className = 'tarjeta'; div.style.background = `linear-gradient(#ffffff, #ffffff) padding-box, linear-gradient(135deg, #C5D5C0, #E8F0E8) border-box`; div.style.border = `var(--card-border-w) solid transparent`; div.style.borderRadius = `var(--card-radius)`; let html = `<div class=\"tarjeta-titulo\">Invierno</div><div class=\"tarjeta-cuerpo\" style=\"padding:0;\"><div style=\"display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:1px solid #ddd;\"><div style=\"padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;\">IDIOMA</div><div style=\"padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;\">ESPAÑOL</div><div style=\"padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;\">DATO</div></div>`; const items = []; items.forEach((item, idx) => { html += `<div style=\"display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:0.5px solid #eee;\"><div style=\"padding:8px 12px; color:#333;\" class=\"hablar\">${item.idioma || ''}</div><div style=\"padding:8px 12px; color:#666; font-size:14px;\">${item.spanish || ''}</div><div style=\"padding:8px 12px; color:#555; font-size:13px;\">${item.dato || ''}</div></div>`; }); if (items.length === 0) { html += `<div style=\"padding:20px; text-align:center; color:#999; font-size:14px;\">Tarjeta vacía</div>`; } html += `</div>`; div.innerHTML = html; return div; } }
+    ],
+    'verano': [
+      { id: 'tarjeta-actividades-verano', titulo: 'Verano', tipo: 'tres-columnas', render: function() { const div = document.createElement('div'); div.className = 'tarjeta'; div.style.background = `linear-gradient(#ffffff, #ffffff) padding-box, linear-gradient(135deg, #C5D5C0, #E8F0E8) border-box`; div.style.border = `var(--card-border-w) solid transparent`; div.style.borderRadius = `var(--card-radius)`; let html = `<div class=\"tarjeta-titulo\">Verano</div><div class=\"tarjeta-cuerpo\" style=\"padding:0;\"><div style=\"display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:1px solid #ddd;\"><div style=\"padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;\">IDIOMA</div><div style=\"padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;\">ESPAÑOL</div><div style=\"padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;\">DATO</div></div>`; const items = []; items.forEach((item, idx) => { html += `<div style=\"display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:0.5px solid #eee;\"><div style=\"padding:8px 12px; color:#333;\" class=\"hablar\">${item.idioma || ''}</div><div style=\"padding:8px 12px; color:#666; font-size:14px;\">${item.spanish || ''}</div><div style=\"padding:8px 12px; color:#555; font-size:13px;\">${item.dato || ''}</div></div>`; }); if (items.length === 0) { html += `<div style=\"padding:20px; text-align:center; color:#999; font-size:14px;\">Tarjeta vacía</div>`; } html += `</div>`; div.innerHTML = html; return div; } }
     ]
   },
   'NÚMEROS Y TIEMPO': {
@@ -1347,7 +1238,28 @@ const CONTENIDO_TARJETAS = {
     'hora': [],
     'dias_meses': []
   },
-  'MODOS Y FRASES': [],
+  'MODOS Y FRASES': {
+    'imperativo': [
+      { id: 'tarjeta-modos-imperativo', titulo: 'Imperativo', tipo: 'tres-columnas', render: function() { const div = document.createElement('div'); div.className = 'tarjeta'; div.style.background = `linear-gradient(#ffffff, #ffffff) padding-box, linear-gradient(135deg, #C5D5C0, #E8F0E8) border-box`; div.style.border = `var(--card-border-w) solid transparent`; div.style.borderRadius = `var(--card-radius)`; let html = `<div class=\"tarjeta-titulo\">Imperativo</div><div class=\"tarjeta-cuerpo\" style=\"padding:0;\"><div style=\"display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:1px solid #ddd;\"><div style=\"padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;\">IDIOMA</div><div style=\"padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;\">ESPAÑOL</div><div style=\"padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;\">DATO</div></div>`; const items = []; items.forEach((item, idx) => { html += `<div style=\"display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:0.5px solid #eee;\"><div style=\"padding:8px 12px; color:#333;\" class=\"hablar\">${item.idioma || ''}</div><div style=\"padding:8px 12px; color:#666; font-size:14px;\">${item.spanish || ''}</div><div style=\"padding:8px 12px; color:#555; font-size:13px;\">${item.dato || ''}</div></div>`; }); if (items.length === 0) { html += `<div style=\"padding:20px; text-align:center; color:#999; font-size:14px;\">Tarjeta vacía</div>`; } html += `</div>`; div.innerHTML = html; return div; } }
+    ],
+    'subjuntivo': [
+      { id: 'tarjeta-modos-subjuntivo', titulo: 'Subjuntivo', tipo: 'tres-columnas', render: function() { const div = document.createElement('div'); div.className = 'tarjeta'; div.style.background = `linear-gradient(#ffffff, #ffffff) padding-box, linear-gradient(135deg, #C5D5C0, #E8F0E8) border-box`; div.style.border = `var(--card-border-w) solid transparent`; div.style.borderRadius = `var(--card-radius)`; let html = `<div class=\"tarjeta-titulo\">Subjuntivo</div><div class=\"tarjeta-cuerpo\" style=\"padding:0;\"><div style=\"display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:1px solid #ddd;\"><div style=\"padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;\">IDIOMA</div><div style=\"padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;\">ESPAÑOL</div><div style=\"padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;\">DATO</div></div>`; const items = []; items.forEach((item, idx) => { html += `<div style=\"display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:0.5px solid #eee;\"><div style=\"padding:8px 12px; color:#333;\" class=\"hablar\">${item.idioma || ''}</div><div style=\"padding:8px 12px; color:#666; font-size:14px;\">${item.spanish || ''}</div><div style=\"padding:8px 12px; color:#555; font-size:13px;\">${item.dato || ''}</div></div>`; }); if (items.length === 0) { html += `<div style=\"padding:20px; text-align:center; color:#999; font-size:14px;\">Tarjeta vacía</div>`; } html += `</div>`; div.innerHTML = html; return div; } }
+    ],
+    'preguntas': [
+      { id: 'tarjeta-modos-preguntas', titulo: 'Preguntas', tipo: 'tres-columnas', render: function() { const div = document.createElement('div'); div.className = 'tarjeta'; div.style.background = `linear-gradient(#ffffff, #ffffff) padding-box, linear-gradient(135deg, #C5D5C0, #E8F0E8) border-box`; div.style.border = `var(--card-border-w) solid transparent`; div.style.borderRadius = `var(--card-radius)`; let html = `<div class=\"tarjeta-titulo\">Preguntas</div><div class=\"tarjeta-cuerpo\" style=\"padding:0;\"><div style=\"display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:1px solid #ddd;\"><div style=\"padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;\">IDIOMA</div><div style=\"padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;\">ESPAÑOL</div><div style=\"padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;\">DATO</div></div>`; const items = []; items.forEach((item, idx) => { html += `<div style=\"display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:0.5px solid #eee;\"><div style=\"padding:8px 12px; color:#333;\" class=\"hablar\">${item.idioma || ''}</div><div style=\"padding:8px 12px; color:#666; font-size:14px;\">${item.spanish || ''}</div><div style=\"padding:8px 12px; color:#555; font-size:13px;\">${item.dato || ''}</div></div>`; }); if (items.length === 0) { html += `<div style=\"padding:20px; text-align:center; color:#999; font-size:14px;\">Tarjeta vacía</div>`; } html += `</div>`; div.innerHTML = html; return div; } }
+    ],
+    'frases': {
+      'particulas': [
+        { id: 'tarjeta-modos-frases-particulas', titulo: 'Partículas', tipo: 'tres-columnas', render: function() { const div = document.createElement('div'); div.className = 'tarjeta'; div.style.background = `linear-gradient(#ffffff, #ffffff) padding-box, linear-gradient(135deg, #C5D5C0, #E8F0E8) border-box`; div.style.border = `var(--card-border-w) solid transparent`; div.style.borderRadius = `var(--card-radius)`; let html = `<div class=\"tarjeta-titulo\">Partículas</div><div class=\"tarjeta-cuerpo\" style=\"padding:0;\"><div style=\"display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:1px solid #ddd;\"><div style=\"padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;\">IDIOMA</div><div style=\"padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;\">ESPAÑOL</div><div style=\"padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;\">DATO</div></div>`; const items = []; items.forEach((item, idx) => { html += `<div style=\"display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:0.5px solid #eee;\"><div style=\"padding:8px 12px; color:#333;\" class=\"hablar\">${item.idioma || ''}</div><div style=\"padding:8px 12px; color:#666; font-size:14px;\">${item.spanish || ''}</div><div style=\"padding:8px 12px; color:#555; font-size:13px;\">${item.dato || ''}</div></div>`; }); if (items.length === 0) { html += `<div style=\"padding:20px; text-align:center; color:#999; font-size:14px;\">Tarjeta vacía</div>`; } html += `</div>`; div.innerHTML = html; return div; } }
+      ],
+      'conversacion': [
+        { id: 'tarjeta-modos-frases-conversacion', titulo: 'Conversación', tipo: 'tres-columnas', render: function() { const div = document.createElement('div'); div.className = 'tarjeta'; div.style.background = `linear-gradient(#ffffff, #ffffff) padding-box, linear-gradient(135deg, #C5D5C0, #E8F0E8) border-box`; div.style.border = `var(--card-border-w) solid transparent`; div.style.borderRadius = `var(--card-radius)`; let html = `<div class=\"tarjeta-titulo\">Conversación</div><div class=\"tarjeta-cuerpo\" style=\"padding:0;\"><div style=\"display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:1px solid #ddd;\"><div style=\"padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;\">IDIOMA</div><div style=\"padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;\">ESPAÑOL</div><div style=\"padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;\">DATO</div></div>`; const items = []; items.forEach((item, idx) => { html += `<div style=\"display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:0.5px solid #eee;\"><div style=\"padding:8px 12px; color:#333;\" class=\"hablar\">${item.idioma || ''}</div><div style=\"padding:8px 12px; color:#666; font-size:14px;\">${item.spanish || ''}</div><div style=\"padding:8px 12px; color:#555; font-size:13px;\">${item.dato || ''}</div></div>`; }); if (items.length === 0) { html += `<div style=\"padding:20px; text-align:center; color:#999; font-size:14px;\">Tarjeta vacía</div>`; } html += `</div>`; div.innerHTML = html; return div; } }
+      ]
+    },
+    'negacion': [
+      { id: 'tarjeta-modos-negacion', titulo: 'Negación', tipo: 'tres-columnas', render: function() { const div = document.createElement('div'); div.className = 'tarjeta'; div.style.background = `linear-gradient(#ffffff, #ffffff) padding-box, linear-gradient(135deg, #C5D5C0, #E8F0E8) border-box`; div.style.border = `var(--card-border-w) solid transparent`; div.style.borderRadius = `var(--card-radius)`; let html = `<div class=\"tarjeta-titulo\">Negación</div><div class=\"tarjeta-cuerpo\" style=\"padding:0;\"><div style=\"display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:1px solid #ddd;\"><div style=\"padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;\">IDIOMA</div><div style=\"padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;\">ESPAÑOL</div><div style=\"padding:8px 12px; font-weight:700; font-size:12px; color:#666; background:#f9f9f9;\">DATO</div></div>`; const items = []; items.forEach((item, idx) => { html += `<div style=\"display:grid; grid-template-columns: auto 1fr auto; width:100%; border-bottom:0.5px solid #eee;\"><div style=\"padding:8px 12px; color:#333;\" class=\"hablar\">${item.idioma || ''}</div><div style=\"padding:8px 12px; color:#666; font-size:14px;\">${item.spanish || ''}</div><div style=\"padding:8px 12px; color:#555; font-size:13px;\">${item.dato || ''}</div></div>`; }); if (items.length === 0) { html += `<div style=\"padding:20px; text-align:center; color:#999; font-size:14px;\">Tarjeta vacía</div>`; } html += `</div>`; div.innerHTML = html; return div; } }
+    ]
+  },
   'PERSONAS': [],
   'CASOS': [],
   'COLORES': [
@@ -1684,7 +1596,7 @@ function elegirUnidad(key, nombre, tipo) {
   actualizarParticulasCasos();
   actualizarParticulasCultura();
   actualizarParticulasNumeros();
-  actualizarParticulasModos();
+  actualizarParticulasModosFrases();
   actualizarParticulasGeografia();
   actualizarParticulasColores();
   
@@ -1884,24 +1796,23 @@ function modoActualModos() {
 }
 
 // ── ACTUALIZAR PARTÍCULAS SEGÚN MODOS Y FRASES (Mecánica Ruso) ────────────────
-function actualizarParticulasModos() {
-  // NOTA: Letritas no tiene partículas asignadas a MODOS Y FRASES
-  // Esta función está deshabilitada hasta que se agreguen
-  /*
-  const modo = modoActualModos();
-  
-  // Detener TODAS las partículas MODOS primero
-  try {
-    Object.values(particleSystemsMODOS).forEach(ps => ps?.stop?.());
-  } catch(e) {}
-  
-  // Activar según contexto
-  if (modo === 'modos') {
+function actualizarParticulasModosFrases() {
+  if (estado.unidad === 'MODOS Y FRASES' && estado.tema) {
+    // Detener todas
     try {
-      Object.values(particleSystemsMODOS).forEach(ps => ps?.start?.());
+      Object.values(particleSystemsMODOS).forEach(ps => ps?.stop?.());
+    } catch(e) {}
+    
+    // Activar solo la del tema actual
+    if (particleSystemsMODOS && particleSystemsMODOS[estado.tema]) {
+      try { particleSystemsMODOS[estado.tema].start(); } catch(e) {}
+    }
+  } else {
+    // Si no es MODOS Y FRASES, detener todas
+    try {
+      Object.values(particleSystemsMODOS).forEach(ps => ps?.stop?.());
     } catch(e) {}
   }
-  */
 }
 
 // ── FUNCIONES DE DETECCIÓN DE CONTEXTO ABECEDARIO (Mecánica Ruso) ────────────
@@ -2018,7 +1929,7 @@ function elegirTema(key, nombre) {
   actualizarParticulasCasos();
   actualizarParticulasCultura();
   actualizarParticulasNumeros();
-  actualizarParticulasModos();
+  actualizarParticulasModosFrases();
   actualizarParticulasColores();
 
   // Cambiar clase del body para actualizar fondo
@@ -2142,6 +2053,32 @@ function elegirTema(key, nombre) {
       selTema.style.background = '';
       selUnidad.style.background = '';
     }
+  } else if (estado.unidad === 'MODOS Y FRASES') {
+    document.body.classList.add(`tema-${key}`);
+    if (key === 'imperativo') {
+      const gradiente = `linear-gradient(#ffffff, #ffffff) padding-box, conic-gradient(from 0deg, #E8392B 0deg, #F2811D 60deg, #F5C518 120deg, #E8392B 180deg, #F2811D 240deg, #F5C518 300deg, #E8392B 360deg) border-box`;
+      selTema.style.background = gradiente;
+      selUnidad.style.background = gradiente;
+    } else if (key === 'subjuntivo') {
+      const gradiente = `linear-gradient(#ffffff, #ffffff) padding-box, conic-gradient(from 0deg, #6B3FA0 0deg, #B08FD8 60deg, #D875A8 120deg, #6B3FA0 180deg, #B08FD8 240deg, #D875A8 300deg, #6B3FA0 360deg) border-box`;
+      selTema.style.background = gradiente;
+      selUnidad.style.background = gradiente;
+    } else if (key === 'preguntas') {
+      const gradiente = `linear-gradient(#ffffff, #ffffff) padding-box, conic-gradient(from 0deg, #6FC9A0 0deg, #2E9EA8 60deg, #3ECFAE 120deg, #6FC9A0 180deg, #2E9EA8 240deg, #3ECFAE 300deg, #6FC9A0 360deg) border-box`;
+      selTema.style.background = gradiente;
+      selUnidad.style.background = gradiente;
+    } else if (key === 'frases') {
+      const gradiente = `linear-gradient(#ffffff, #ffffff) padding-box, conic-gradient(from 0deg, #D9C39A 0deg, #C4993A 60deg, #7A4A21 120deg, #D9C39A 180deg, #C4993A 240deg, #7A4A21 300deg, #D9C39A 360deg) border-box`;
+      selTema.style.background = gradiente;
+      selUnidad.style.background = gradiente;
+    } else if (key === 'negacion') {
+      const gradiente = `linear-gradient(#ffffff, #ffffff) padding-box, conic-gradient(from 0deg, #C0392B 0deg, #D9662D 60deg, #B83A72 120deg, #C0392B 180deg, #D9662D 240deg, #B83A72 300deg, #C0392B 360deg) border-box`;
+      selTema.style.background = gradiente;
+      selUnidad.style.background = gradiente;
+    } else {
+      selTema.style.background = '';
+      selUnidad.style.background = '';
+    }
   } else {
     selTema.style.background = '';
     selUnidad.style.background = '';
@@ -2237,6 +2174,12 @@ function elegirSubtema(key, nombre, activarPartículas = true) {
   // Aplicar gradiente vibrante a Verano e Invierno
   if ((key === 'verano' || key === 'invierno') && estado.tema === 'actividades') {
     const gradiente = `linear-gradient(#ffffff, #ffffff) padding-box, conic-gradient(from 0deg, #f2994a 0deg, #d6409f 130deg, #8b5cf6 250deg, #4fd1d9 320deg, #f2994a 360deg) border-box`;
+    selSubtema.style.background = gradiente;
+  } else if (key === 'particulas' && estado.tema === 'frases') {
+    const gradiente = `linear-gradient(#ffffff, #ffffff) padding-box, conic-gradient(from 0deg, #D9C39A 0deg, #C4993A 60deg, #7A4A21 120deg, #D9C39A 180deg, #C4993A 240deg, #7A4A21 300deg, #D9C39A 360deg) border-box`;
+    selSubtema.style.background = gradiente;
+  } else if (key === 'conversacion' && estado.tema === 'frases') {
+    const gradiente = `linear-gradient(#ffffff, #ffffff) padding-box, conic-gradient(from 0deg, #D9C39A 0deg, #C4993A 60deg, #7A4A21 120deg, #D9C39A 180deg, #C4993A 240deg, #7A4A21 300deg, #D9C39A 360deg) border-box`;
     selSubtema.style.background = gradiente;
   } else {
     selSubtema.style.background = '';
@@ -2922,11 +2865,20 @@ function renderMesaLibre(mesa) {
   let tarjetasDisponibles = [];
   
   // Si la unidad es CULTURA, buscar las tarjetas del tema específico
-  if (estado.unidad === 'CULTURA' && estado.tema) {
+  if (estado.unidad === 'GEOGRAFÍA Y CLIMA' && estado.subtema) {
+    const temasTarjetas = CONTENIDO_TARJETAS['actividades'][estado.subtema];
+    tarjetasDisponibles = temasTarjetas || [];
+  } else if (estado.unidad === 'MODOS Y FRASES' && estado.subtema) {
+    const temasTarjetas = CONTENIDO_TARJETAS['MODOS Y FRASES'][estado.tema][estado.subtema];
+    tarjetasDisponibles = temasTarjetas || [];
+  } else if (estado.unidad === 'CULTURA' && estado.tema) {
     const temasTarjetas = CONTENIDO_TARJETAS['CULTURA'][estado.tema];
     tarjetasDisponibles = temasTarjetas || [];
   } else if (estado.unidad === 'GEOGRAFÍA Y CLIMA' && estado.tema) {
     const temasTarjetas = CONTENIDO_TARJETAS['GEOGRAFÍA Y CLIMA'][estado.tema];
+    tarjetasDisponibles = temasTarjetas || [];
+  } else if (estado.unidad === 'MODOS Y FRASES' && estado.tema) {
+    const temasTarjetas = CONTENIDO_TARJETAS['MODOS Y FRASES'][estado.tema];
     tarjetasDisponibles = temasTarjetas || [];
   } else if (estado.unidad === 'NÚMEROS Y TIEMPO' && estado.tema) {
     const temasTarjetas = CONTENIDO_TARJETAS['NÚMEROS Y TIEMPO'][estado.tema];
@@ -4110,105 +4062,6 @@ class RoundedSquareParticleSystem {
 }
 
 // ── SISTEMA DE PARTÍCULAS DE TEXTO (para numerales, símbolos, etc.) ────────
-class TextParticleSystem {
-  constructor(containerId, text = '#', colors = null) {
-    this.container = document.getElementById(containerId);
-    this.particles = [];
-    this.active = false;
-    this.text = text;
-    this.colors = colors;
-    this.init();
-  }
-  
-  init() {
-    // Crear 15 partículas total
-    for (let i = 0; i < 15; i++) {
-      const color = this.colors ? this.colors[i % this.colors.length] : '#556B2F';
-      this.createParticle(color);
-    }
-    
-    // Agregar estilos de animación si no existen
-    if (!document.querySelector('style[data-particles-style]')) {
-      const style = document.createElement('style');
-      style.setAttribute('data-particles-style', 'true');
-      style.textContent = `
-        @keyframes particleFadeInOut {
-          0% { opacity: 0; }
-          10% { opacity: 1; }
-          90% { opacity: 1; }
-          100% { opacity: 0; }
-        }
-      `;
-      document.head.appendChild(style);
-    }
-  }
-  
-  createParticle(color) {
-    const particle = {
-      element: document.createElement('div'),
-      color: color
-    };
-    
-    particle.element.style.cssText = `
-      position: fixed;
-      pointer-events: none;
-      z-index: 0;
-      font-size: 24px;
-      font-weight: bold;
-      font-style: normal;
-      color: ${color};
-      text-shadow: 0 0 8px ${color};
-    `;
-    
-    particle.element.textContent = this.text;
-    
-    this.particles.push(particle);
-    this.resetParticle(particle);
-  }
-  
-  resetParticle(particle) {
-    if (!this.active && particle.element.parentElement) return;
-    
-    const x = Math.random() * (window.innerWidth - 30);
-    const y = Math.random() * (window.innerHeight - 30);
-    const duration = Math.random() * 5000 + 10000; // 10-15 segundos
-    const delay = Math.random() * 3000; // Delays variados
-    const rotation = Math.random() * 360;
-    
-    particle.element.style.left = x + 'px';
-    particle.element.style.top = y + 'px';
-    particle.element.style.opacity = '0';
-    particle.element.style.animation = 'none';
-    // NO rotamos texto (# y @) para que no se vea extraño
-    
-    void particle.element.offsetWidth;
-    
-    particle.element.style.animation = `particleFadeInOut ${duration}ms ease-in-out ${delay}ms forwards`;
-    
-    setTimeout(() => this.resetParticle(particle), delay + duration + 50);
-  }
-  
-  start() {
-    if (this.active) return;
-    this.active = true;
-    this.particles.forEach(p => {
-      if (!p.element.parentElement) {
-        document.body.appendChild(p.element);
-      }
-    });
-  }
-  
-  stop() {
-    if (!this.active) return;
-    this.active = false;
-    this.particles.forEach(p => {
-      if (p.element.parentElement) {
-        p.element.parentElement.removeChild(p.element);
-      }
-    });
-  }
-}
-
 class FeatherHexagonParticleSystem {
   constructor(containerId, colors = null) {
     this.container = document.getElementById(containerId);
@@ -7835,6 +7688,115 @@ class ParticleSystem {
   }
 }
 
+// ── CLASE TEXTPARTICLESYSTEM: PARTÍCULAS DE TEXTO CON MECÁNICA DE PARTICLESYSTEM ────
+class TextParticleSystem {
+  constructor(containerId, text = '#', colors = null) {
+    this.container = document.getElementById(containerId);
+    this.particles = [];
+    this.active = false;
+    this.text = text;
+    this.colors = colors;
+    this.init();
+  }
+  
+  init() {
+    // Crear 15 partículas total (igual que ParticleSystem)
+    if (this.colors) {
+      for (let i = 0; i < 15; i++) {
+        const color = this.colors[i % this.colors.length];
+        this.createParticle(color);
+      }
+    } else {
+      for (let i = 0; i < 10; i++) {
+        const color = i % 2 === 0 ? '#B8E3F0' : '#E8F5FB';
+        this.createParticle(color);
+      }
+      for (let i = 0; i < 5; i++) {
+        this.createParticle('#FAFAFA');
+      }
+    }
+    
+    // Agregar estilos de animación si no existen
+    if (!document.querySelector('style[data-particles-style]')) {
+      const style = document.createElement('style');
+      style.setAttribute('data-particles-style', 'true');
+      style.textContent = `
+        @keyframes particleFadeInOut {
+          0% { opacity: 0; }
+          10% { opacity: 1; }
+          90% { opacity: 1; }
+          100% { opacity: 0; }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+  }
+  
+  createParticle(color) {
+    const particle = {
+      element: document.createElement('div'),
+      color: color
+    };
+    
+    // TEXTO en lugar de círculos
+    particle.element.style.cssText = `
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+      font-size: 24px;
+      font-weight: bold;
+      color: ${color};
+      text-shadow: 0 0 8px ${color};
+    `;
+    
+    particle.element.textContent = this.text;
+    this.particles.push(particle);
+    this.resetParticle(particle);
+  }
+  
+  resetParticle(particle) {
+    if (!this.active && particle.element.parentElement) return;
+    
+    const x = Math.random() * (window.innerWidth - 30);
+    const y = Math.random() * (window.innerHeight - 30);
+    const duration = Math.random() * 5000 + 10000; // 10-15 segundos (igual que ParticleSystem)
+    const delay = Math.random() * 3000; // Delays variados (igual que ParticleSystem)
+    const rotation = Math.random() * 360; // ROTACIÓN AL AZAR
+    
+    particle.element.style.left = x + 'px';
+    particle.element.style.top = y + 'px';
+    particle.element.style.opacity = '0';
+    particle.element.style.animation = 'none';
+    particle.element.style.transform = `rotate(${rotation}deg)`; // APLICAR ROTACIÓN
+    
+    void particle.element.offsetWidth;
+    
+    particle.element.style.animation = `particleFadeInOut ${duration}ms ease-in-out ${delay}ms forwards`;
+    
+    setTimeout(() => this.resetParticle(particle), delay + duration + 50);
+  }
+  
+  start() {
+    if (this.active) return;
+    this.active = true;
+    this.particles.forEach(p => {
+      if (!p.element.parentElement) {
+        document.body.appendChild(p.element);
+      }
+    });
+  }
+  
+  stop() {
+    if (!this.active) return;
+    this.active = false;
+    this.particles.forEach(p => {
+      if (p.element.parentElement) {
+        p.element.parentElement.removeChild(p.element);
+      }
+    });
+  }
+}
+
 // Instanciar sistemas de partículas para cada unidad
 const particleSystemABECEDARIO = new ParticleSystem('mesa'); // Celeste + blancas por defecto
 const particleSystemCULTURA = new ParticleSystem('mesa'); // Mismo que ABECEDARIO - Celeste + blancas
@@ -8205,6 +8167,41 @@ const particleSystemsCASOS = {
   'caso6': particleSystemCASO6
 };
 
+// Crear instancias de partículas para MODOS Y FRASES
+// Se crean antes de las clases porque se referencian después
+let particleSystemMODOS_imperativo;
+let particleSystemMODOS_subjuntivo;
+let particleSystemMODOS_preguntas;
+let particleSystemMODOS_frases;
+let particleSystemMODOS_negacion;
+
+// ── PARTÍCULAS PARA MODOS Y FRASES ────────────────────────────────────
+
+// Inicializar instancias de MODOS Y FRASES DESPUÉS de que las clases estén definidas
+// Solo texto con mecánica de ParticleSystem
+
+// IMPERATIVO: ! (Rojo/Naranja/Amarillo)
+particleSystemMODOS_imperativo = new TextParticleSystem('mesa', '!', ['#E8392B', '#F2811D', '#F5C518']);
+
+// SUBJUNTIVO: ¡? (Violeta/Lila/Rosa)
+particleSystemMODOS_subjuntivo = new TextParticleSystem('mesa', '¡?', ['#6B3FA0', '#B08FD8', '#D875A8']);
+
+// PREGUNTAS: ? (Verde Menta/Turquesa/Aguamarina)
+particleSystemMODOS_preguntas = new TextParticleSystem('mesa', '?', ['#6FC9A0', '#2E9EA8', '#3ECFAE']);
+
+// FRASES: ... (Arena/Ocre/Marrón)
+particleSystemMODOS_frases = new TextParticleSystem('mesa', '...', ['#D9C39A', '#C4993A', '#7A4A21']);
+
+// NEGACIÓN: X (Rojo/Naranja/Fuxia)
+particleSystemMODOS_negacion = new TextParticleSystem('mesa', 'X', ['#C0392B', '#D9662D', '#B83A72']);
+
+const particleSystemsMODOS = {
+  'imperativo': particleSystemMODOS_imperativo,
+  'subjuntivo': particleSystemMODOS_subjuntivo,
+  'preguntas': particleSystemMODOS_preguntas,
+  'frases': particleSystemMODOS_frases,
+  'negacion': particleSystemMODOS_negacion
+};
 
 // Cargar la primera unidad automáticamente
 if (Object.keys(UNIDADES).length > 0) {
