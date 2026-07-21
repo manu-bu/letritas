@@ -2308,11 +2308,29 @@ function toggleTarjeta(idx) {
 
 function guardar() {
   if (!estado.editor) return;
+  
+  // Guardar posiciones actuales de todas las tarjetas del DOM
+  const tarjetas = document.querySelectorAll('.tarjeta, .tarjeta-fija');
+  tarjetas.forEach(tarjeta => {
+    const id = tarjeta.id || tarjeta.dataset.id;
+    if (id) {
+      estado.tarjetas[id] = {
+        ...(estado.tarjetas[id] || {}),
+        left: parseInt(tarjeta.style.left) || 0,
+        top: parseInt(tarjeta.style.top) || 0,
+        escala: /scale\(([0-9.]+)\)/.test(tarjeta.style.transform) ? parseFloat(/scale\(([0-9.]+)\)/.exec(tarjeta.style.transform)[1]) : 1
+      };
+    }
+  });
+  
+  // Guardar en localStorage
   localStorage.setItem('letritas_estado', JSON.stringify(estado.tarjetas));
+  
+  // Feedback visual
   const btn = document.getElementById('btnGuardar');
   const textoOriginal = btn.textContent;
-  btn.textContent = '!';
-  btn.style.color = '#d63b2f'; // Rojo
+  btn.textContent = '✓';
+  btn.style.color = '#2ecc71'; // Verde
   setTimeout(() => { 
     btn.textContent = 'S'; 
     btn.style.color = '';
@@ -3012,11 +3030,15 @@ function activarArrastre(tarjeta, id) {
         left: parseInt(tarjeta.style.left),
         top:  parseInt(tarjeta.style.top)
       };
+      // Guardar automáticamente en localStorage
+      localStorage.setItem('letritas_estado', JSON.stringify(estado.tarjetas));
     } else if (modo === 'pellizco') {
       estado.tarjetas[id] = {
         ...(estado.tarjetas[id] || {}),
         escala: escalaActual()
       };
+      // Guardar automáticamente en localStorage
+      localStorage.setItem('letritas_estado', JSON.stringify(estado.tarjetas));
     }
 
     if (pointers.size < 2) modo = null;
@@ -3059,7 +3081,12 @@ iniciarDropdownUnidades();
 const estadoGuardado = localStorage.getItem('letritas_estado');
 if (estadoGuardado) {
   try {
-    estado.tarjetas = JSON.parse(estadoGuardado);
+    const datosGuardados = JSON.parse(estadoGuardado);
+    // Inicializar estado.tarjetas si no existe
+    if (!estado.tarjetas) estado.tarjetas = {};
+    // Mergewear datos guardados
+    Object.assign(estado.tarjetas, datosGuardados);
+    console.log('Estado cargado de localStorage:', estado.tarjetas);
   } catch (e) {
     console.error('Error al cargar estado guardado', e);
   }
